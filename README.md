@@ -18,6 +18,28 @@ The app is structured using **Hexagonal Architecture**, which separates concerns
 
 ---
 
+## 📁 Project Structure
+
+```text
+ExpenseTrackerApp/
+├── domain/
+│   └── model/             # Core domain models (e.g., Expense, Budget)
+│   └── service/           # Domain-specific logic (not used directly by the adapters)
+│   └── port/              # Interfaces for communication with the application layer
+├── application/
+│   └── port/              # Interfaces for the use cases and repositories
+│   └── service/           # Implementations of use cases (e.g., ExpenseService)
+│   └── ApplicationConfig.java  # Configures application dependencies
+├── adapters/
+│   └── in/                # API controllers (e.g., ExpenseController)
+│   └── out/               # Implementations of output ports (e.g., JPA repository)
+├── resources/
+│   └── application.yml    # Application properties (database config, etc.)
+├── pom.xml                # Maven build file
+└── README.md              # This file
+```
+---
+
 ## 📝 Features
 
 - **Expense Management**: Track all your expenses, including name, description, amount, date/time, payment method (cash,
@@ -53,8 +75,8 @@ The app is structured using **Hexagonal Architecture**, which separates concerns
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/yourusername/finance-tracker.git
-   cd finance-tracker
+   git clone https://github.com/PotatoDoge/ExpenseTrackerApp
+   cd ExpenseTrackerApp
    ```
 2. **Install dependencies:y**:
    ```bash
