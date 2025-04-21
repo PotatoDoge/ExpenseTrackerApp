@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14
+    container_name: expensetracker-db
+    restart: always
+    environment:
+      POSTGRES_DB: expensetrackerdb
+      POSTGRES_USER: expensetracker
+      POSTGRES_PASSWORD: securepassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - /var/lib/docker/volumes/expensetracker-db-volume/_data:/var/lib/postgresql/data
+
