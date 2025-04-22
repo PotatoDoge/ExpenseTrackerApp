@@ -3,7 +3,10 @@ package com.expensetrackerapp.infrastructure.outbound.entities;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -12,6 +15,9 @@ import java.util.Currency;
 @Entity
 @Table(name = "expenses")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ExpenseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
