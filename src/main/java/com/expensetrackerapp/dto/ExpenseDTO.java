@@ -1,5 +1,6 @@
 package com.expensetrackerapp.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -7,6 +8,7 @@ import java.time.LocalDateTime;
 import java.util.Currency;
 
 @Data
+@Builder
 public class ExpenseDTO {
 
     private Long id;
