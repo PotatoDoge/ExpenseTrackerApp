@@ -6,7 +6,7 @@ import com.expensetrackerapp.application.port.out.SaveExpenseOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -17,13 +17,13 @@ import org.springframework.stereotype.Service;
 public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
 
     private final SaveExpenseOutboundPort<ExpenseEntity> saveExpensePort;
-    private final ObjectMapper objectMapper;
+    private final ExpenseMapper expenseMapper;
 
     @Override
     public ExpenseDTO saveExpense(SaveExpenseRequest saveExpenseRequest) {
-        Expense expense = objectMapper.convertValue(saveExpenseRequest, Expense.class);
+        Expense expense = expenseMapper.fromRequestToPojo(saveExpenseRequest);
         log.info("Saving expense: {}", expense);
         ExpenseEntity expenseEntity = saveExpensePort.saveExpense(expense);
-        return objectMapper.convertValue(expenseEntity, ExpenseDTO.class);
+        return expenseMapper.fromEntityToDTO(expenseEntity);
     }
 }
