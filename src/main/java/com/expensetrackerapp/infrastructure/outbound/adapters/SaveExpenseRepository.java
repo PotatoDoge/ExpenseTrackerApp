@@ -19,7 +19,7 @@ public class SaveExpenseRepository implements SaveExpenseOutboundPort<ExpenseEnt
 
     @Override
     public ExpenseEntity saveExpense(Expense expense) {
-        ExpenseEntity savedExpense = expenseRepository.save(expenseMapper.toEntity(expense));
+        ExpenseEntity savedExpense = expenseRepository.save(expenseMapper.fromPojoToEntity(expense));
         log.info("Saved expense: {}", savedExpense);
         return savedExpense;
     }
