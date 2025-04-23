@@ -1,9 +1,8 @@
-package com.expensetrackerapp.infrastructure.controller.rest;
+package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
 import com.expensetrackerapp.dto.ExpenseDTO;
-import com.expensetrackerapp.infrastructure.inbound.controller.rest.ExpenseController;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
