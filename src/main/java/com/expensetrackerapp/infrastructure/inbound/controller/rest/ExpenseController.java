@@ -1,10 +1,14 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.shared.CustomResponse;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -22,7 +26,7 @@ import org.springframework.web.bind.annotation.*;
 public class ExpenseController {
 
     private final SaveExpenseUseCase<ExpenseDTO> saveExpenseUseCase;
-    private final GetExpensesUseCase<ExpenseDTO> getExpensesUseCase;
+    private final GetExpensesUseCase<ExpenseDTO, GetExpensesFilters> getExpensesUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveExpense(@RequestBody SaveExpenseRequest request) {
@@ -41,9 +45,36 @@ public class ExpenseController {
     }
 
     @GetMapping
-    public ResponseEntity<CustomResponse> getExpenses() {
-        log.info("Received request to get all expenses");
-        List<ExpenseDTO> expenses = getExpensesUseCase.getExpenses();
+    public ResponseEntity<CustomResponse> getExpenses(
+            @RequestParam(required = false) Long expenseId,
+            @RequestParam(required = false) String expenseName,
+            @RequestParam(required = false) String description,
+            @RequestParam(required = false) BigDecimal amount,
+            @RequestParam(required = false) String currency,
+            @RequestParam(required = false) LocalDate expenseDate,
+            @RequestParam(required = false) Boolean requiresInvoice,
+            @RequestParam(required = false) Integer installments,
+            @RequestParam(required = false) String vendor,
+            @RequestParam(required = false) String location,
+            @RequestParam(required = false) Boolean paidInFull,
+            @RequestParam(required = false) Boolean recurring
+    ) {
+        GetExpensesFilters filter = GetExpensesFilters.builder()
+                .expenseId(expenseId)
+                .expenseName(expenseName)
+                .description(description)
+                .amount(amount)
+                .currency(currency)
+                .expenseDate(expenseDate)
+                .requiresInvoice(requiresInvoice)
+                .installments(installments)
+                .vendor(vendor)
+                .location(location)
+                .paidInFull(paidInFull)
+                .recurring(recurring)
+                .build();
+        log.info("Received request to get all expenses with the following filters: {}", filter);
+        List<ExpenseDTO> expenses = getExpensesUseCase.getExpenses(filter);
         CustomResponse response = CustomResponse
                 .builder()
                 .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))

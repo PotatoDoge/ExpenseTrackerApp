@@ -1,5 +1,6 @@
 package com.expensetrackerapp.application.service;
 
+import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
 import com.expensetrackerapp.application.port.out.GetExpensesOutboundPort;
 import com.expensetrackerapp.dto.ExpenseDTO;
@@ -14,13 +15,13 @@ import java.util.List;
 @Service
 @AllArgsConstructor
 @Log4j2
-public class GetExpensesService implements GetExpensesUseCase<ExpenseDTO> {
+public class GetExpensesService implements GetExpensesUseCase<ExpenseDTO, GetExpensesFilters> {
 
-    private final GetExpensesOutboundPort<ExpenseEntity> getExpensesPort;
+    private final GetExpensesOutboundPort<ExpenseEntity, GetExpensesFilters> getExpensesPort;
     private final ExpenseMapper expenseMapper;
 
     @Override
-    public List<ExpenseDTO> getExpenses() {
-        return getExpensesPort.getExpenses().stream().map(expenseMapper::fromEntityToDTO).toList();
+    public List<ExpenseDTO> getExpenses(GetExpensesFilters filters) {
+        return getExpensesPort.getExpenses(filters).stream().map(expenseMapper::fromEntityToDTO).toList();
     }
 }
