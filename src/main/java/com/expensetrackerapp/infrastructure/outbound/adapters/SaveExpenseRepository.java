@@ -9,6 +9,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+
 @Component
 @AllArgsConstructor
 @Log4j2
@@ -19,6 +21,7 @@ public class SaveExpenseRepository implements SaveExpenseOutboundPort<ExpenseEnt
 
     @Override
     public ExpenseEntity saveExpense(Expense expense) {
+        expense.setExpenseDate(LocalDate.now());
         ExpenseEntity savedExpense = expenseRepository.save(expenseMapper.fromPojoToEntity(expense));
         log.info("Saved expense: {}", savedExpense);
         return savedExpense;
