@@ -17,6 +17,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
 import java.util.Set;
@@ -47,8 +48,8 @@ public class SaveExpenseServiceUnitTest{
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.now())
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .paymentMethod(PaymentMethod.CARD)
                 .requiresInvoice(true)
                 .isPaidInFull(true)
@@ -69,8 +70,8 @@ public class SaveExpenseServiceUnitTest{
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.now())
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .paymentMethod(PaymentMethod.CARD)
                 .requiresInvoice(true)
                 .isPaidInFull(true)
@@ -91,8 +92,8 @@ public class SaveExpenseServiceUnitTest{
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.now())
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .paymentMethod(PaymentMethod.CARD)
                 .requiresInvoice(true)
                 .isPaidInFull(true)
@@ -109,8 +110,8 @@ public class SaveExpenseServiceUnitTest{
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.now())
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .requiresInvoice(true)
                 .isPaidInFull(true)
                 .installments(1)

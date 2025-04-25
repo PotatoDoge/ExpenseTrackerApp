@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Currency;
 
@@ -56,8 +57,8 @@ public class ExpenseControllerUnitTest {
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.parse("2024-04-21T10:30:00"))
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .requiresInvoice(true)
                 .isPaidInFull(true)
                 .installments(1)

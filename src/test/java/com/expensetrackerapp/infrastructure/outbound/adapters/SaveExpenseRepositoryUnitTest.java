@@ -14,8 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Currency;
+import java.time.LocalDate;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -43,8 +42,8 @@ class SaveExpenseRepositoryUnitTest {
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(LocalDateTime.now())
+                .currency("USD")
+                .expenseDate(LocalDate.now())
                 .paymentMethod(PaymentMethod.CARD)
                 .requiresInvoice(true)
                 .isPaidInFull(true)
@@ -64,8 +63,8 @@ class SaveExpenseRepositoryUnitTest {
                 .name("Lunch")
                 .description("Description of expense")
                 .amount(BigDecimal.valueOf(50.0))
-                .currency(Currency.getInstance("USD"))
-                .dateTime(expense.getDateTime())
+                .currency("USD")
+                .expenseDate(expense.getExpenseDate())
                 .paymentMethod(PaymentMethod.CARD)
                 .requiresInvoice(true)
                 .isPaidInFull(true)
