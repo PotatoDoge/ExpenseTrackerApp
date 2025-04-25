@@ -21,7 +21,7 @@ public class GetExpensesRepository implements GetExpensesOutboundPort<ExpenseEnt
     public List<ExpenseEntity> getExpenses(GetExpensesFilters filters) {
         try {
             List<ExpenseEntity> expenseEntities =
-                    expenseRepository.findAllByFilters(
+                    expenseRepository.findAllExpensesByFilters(
                                     filters.getExpenseId(),
                                     filters.getExpenseName(),
                                     filters.getDescription(),

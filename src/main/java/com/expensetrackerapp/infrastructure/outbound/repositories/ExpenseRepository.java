@@ -24,7 +24,7 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
             "AND (:vendor IS NULL OR e.vendor LIKE %:vendor%) " +
             "AND (:location IS NULL OR e.location LIKE %:location%) " +
             "AND (:isPaidInFull IS NULL OR e.isPaidInFull = :isPaidInFull)")
-    List<ExpenseEntity> findAllByFilters(
+    List<ExpenseEntity> findAllExpensesByFilters(
             @Param("id") Long id,
             @Param("name") String name,
             @Param("description") String description,
