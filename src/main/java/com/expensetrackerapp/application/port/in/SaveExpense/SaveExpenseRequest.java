@@ -12,8 +12,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.Currency;
+import java.time.LocalDate;
 import java.util.Set;
 
 @Data
@@ -24,13 +23,13 @@ public class SaveExpenseRequest {
     private String name;
     private String description;
     private BigDecimal amount;
-    private Currency currency;
-    private LocalDateTime dateTime;
+    private String currency;
+    private LocalDate expenseDate;
     private PaymentMethod paymentMethod;
-    private boolean requiresInvoice;
-    private boolean isPaidInFull;
-    private int installments;
-    private boolean isRecurring;
+    private Boolean requiresInvoice;
+    private Boolean isPaidInFull;
+    private Integer installments;
+    private Boolean isRecurring;
     private RecurrenceType recurrenceType;
     private String vendor;
     private String location;
