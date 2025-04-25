@@ -18,23 +18,23 @@ public interface ExpenseRepository extends JpaRepository<ExpenseEntity, Long> {
             "AND (:description IS NULL OR e.description LIKE %:description%) " +
             "AND (:amount IS NULL OR e.amount = :amount) " +
             "AND (:currency IS NULL OR e.currency = :currency) " +
-            "AND (DATE(:expenseDate) IS NULL OR DATE(e.expenseDate) = DATE(:expenseDate)) " +
+            "AND (e.expenseDate = COALESCE(:expenseDate, e.expenseDate) ) " +
             "AND (:requiresInvoice IS NULL OR e.requiresInvoice = :requiresInvoice) " +
             "AND (:installments IS NULL OR e.installments = :installments) " +
             "AND (:vendor IS NULL OR e.vendor LIKE %:vendor%) " +
             "AND (:location IS NULL OR e.location LIKE %:location%) " +
             "AND (:isPaidInFull IS NULL OR e.isPaidInFull = :isPaidInFull)")
     List<ExpenseEntity> findAllByFilters(
-            Long id,
-            String name,
-            String description,
-            BigDecimal amount,
-            String currency,
+            @Param("id") Long id,
+            @Param("name") String name,
+            @Param("description") String description,
+            @Param("amount") BigDecimal amount,
+            @Param("currency") String currency,
             @Param("expenseDate") LocalDate expenseDate,
-            Boolean requiresInvoice,
-            Integer installments,
-            String vendor,
-            String location,
-            Boolean isPaidInFull
+            @Param("requiresInvoice") Boolean requiresInvoice,
+            @Param("installments") Integer installments,
+            @Param("vendor") String vendor,
+            @Param("location") String location,
+            @Param("isPaidInFull") Boolean isPaidInFull
     );
 }
