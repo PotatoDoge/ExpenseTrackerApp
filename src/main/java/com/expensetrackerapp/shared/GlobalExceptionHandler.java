@@ -1,5 +1,7 @@
 package com.expensetrackerapp.shared;
 
+import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
+import com.expensetrackerapp.shared.exceptions.MappingException;
 import com.expensetrackerapp.shared.exceptions.NullRequestException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,18 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomResponse> handleSendingEmailErrorException(NullRequestException ex) {
         log.error("NullRequestException occurred: ", ex);
         return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
+    }
+
+    @ExceptionHandler(DatabaseInteractionException.class)
+    public ResponseEntity<CustomResponse> handleDatabaseInteractionException(DatabaseInteractionException ex) {
+        log.error("DatabaseInteractionException occurred: ", ex);
+        return createResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
+    }
+
+    @ExceptionHandler(MappingException.class)
+    public ResponseEntity<CustomResponse> handleMappingException(MappingException ex) {
+        log.error("MappingException occurred: ", ex);
+        return createResponse(HttpStatus.INTERNAL_SERVER_ERROR, ex.getMessage());
     }
 
     private ResponseEntity<CustomResponse> createResponse(HttpStatus status, String message) {
