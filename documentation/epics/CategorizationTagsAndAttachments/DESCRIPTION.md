@@ -9,3 +9,4 @@ Future-proof the app by supporting categories, tagging, and file attachments for
 🧵 **Outcomes:**
 - Enhanced filtering and searching of expenses.
 - Better context with documents and receipts.
+- 
