@@ -51,7 +51,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
     }
 
     @Override
-    public ExpenseEntity updateEntity(ExpenseEntity existing, ExpenseEntity newData) {
+    public void updateEntity(ExpenseEntity existing, ExpenseEntity newData) {
         existing.setName(newData.getName());
         existing.setDescription(newData.getDescription());
         existing.setAmount(newData.getAmount());
@@ -65,7 +65,6 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
         existing.setRecurrenceType(newData.getRecurrenceType());
         existing.setVendor(newData.getVendor());
         existing.setLocation(newData.getLocation());
-        return existing;
     }
 
 
