@@ -1,6 +1,6 @@
 package com.expensetrackerapp.infrastructure.outbound.mappers;
 
-import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
+import com.expensetrackerapp.application.port.BaseExpenseRequest;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
-public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, ExpenseDTO, SaveExpenseRequest> {
+public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, ExpenseDTO, BaseExpenseRequest> {
 
     @Override
     public ExpenseEntity fromPojoToEntity(Expense e) {
@@ -50,9 +50,30 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                 .build();
     }
 
+    @Override
+    public ExpenseEntity updateEntity(ExpenseEntity existing, ExpenseEntity newData) {
+        existing.setName(newData.getName());
+        existing.setDescription(newData.getDescription());
+        existing.setAmount(newData.getAmount());
+        existing.setCurrency(newData.getCurrency());
+        existing.setExpenseDate(newData.getExpenseDate());
+        existing.setPaymentMethod(newData.getPaymentMethod());
+        existing.setRequiresInvoice(newData.getRequiresInvoice());
+        existing.setIsPaidInFull(newData.getIsPaidInFull());
+        existing.setInstallments(newData.getInstallments());
+        existing.setIsRecurring(newData.getIsRecurring());
+        existing.setRecurrenceType(newData.getRecurrenceType());
+        existing.setVendor(newData.getVendor());
+        existing.setLocation(newData.getLocation());
+        return existing;
+    }
+
+
+
+
 
     @Override
-    public Expense fromRequestToPojo(SaveExpenseRequest saveExpenseRequest) {
+    public Expense fromRequestToPojo(BaseExpenseRequest saveExpenseRequest) {
         try{
             return Expense.builder()
                     .name(saveExpenseRequest.getName())
