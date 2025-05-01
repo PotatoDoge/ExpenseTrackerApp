@@ -4,6 +4,8 @@ import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
+import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseRequest;
+import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseUseCase;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.shared.CustomResponse;
 
@@ -27,6 +29,7 @@ public class ExpenseController {
 
     private final SaveExpenseUseCase<ExpenseDTO> saveExpenseUseCase;
     private final GetExpensesUseCase<ExpenseDTO, GetExpensesFilters> getExpensesUseCase;
+    private final UpdateExpenseUseCase<ExpenseDTO> updateExpenseUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveExpense(@RequestBody SaveExpenseRequest request) {
@@ -82,4 +85,21 @@ public class ExpenseController {
                 .data(Map.of("expenses", expenses)).build();
         return ResponseEntity.status(200).body(response);
     }
+
+    @PutMapping("{expenseId}")
+    public ResponseEntity<CustomResponse> updateExpense(@RequestBody UpdateExpenseRequest request, @PathVariable Long expenseId) {
+        log.info("Received request to update expense: name={}, amount={}, category={}",
+                request.getName(),
+                request.getAmount(),
+                request.getCategory());
+        ExpenseDTO updatedExpense = updateExpenseUseCase.updateExpense(request, expenseId);
+        CustomResponse response = CustomResponse
+                .builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Expense updated successfully")
+                .data(Map.of("expense", updatedExpense)).build();
+        log.info("Expense updated successfully with ID: {}", updatedExpense.getId());
+        return ResponseEntity.status(201).body(response);
+    }
+
 }
