@@ -14,62 +14,76 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
 
     @Override
     public ExpenseEntity fromPojoToEntity(Expense e) {
-        return ExpenseEntity.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .description(e.getDescription())
-                .amount(e.getAmount())
-                .currency(e.getCurrency())
-                .expenseDate(e.getExpenseDate())
-                .paymentMethod(e.getPaymentMethod())
-                .requiresInvoice(e.getRequiresInvoice())
-                .isPaidInFull(e.getIsPaidInFull())
-                .installments(e.getInstallments())
-                .isRecurring(e.getIsRecurring())
-                .recurrenceType(e.getRecurrenceType())
-                .vendor(e.getVendor())
-                .location(e.getLocation())
-                .build();
+        try{
+            return ExpenseEntity.builder()
+                    .id(e.getId())
+                    .name(e.getName())
+                    .description(e.getDescription())
+                    .amount(e.getAmount())
+                    .currency(e.getCurrency())
+                    .expenseDate(e.getExpenseDate())
+                    .paymentMethod(e.getPaymentMethod())
+                    .requiresInvoice(e.getRequiresInvoice())
+                    .isPaidInFull(e.getIsPaidInFull())
+                    .installments(e.getInstallments())
+                    .isRecurring(e.getIsRecurring())
+                    .recurrenceType(e.getRecurrenceType())
+                    .vendor(e.getVendor())
+                    .location(e.getLocation())
+                    .build();
+        }
+        catch (Exception ex) {
+            log.error("Error occurred while mapping object to entity: {}", ex.getMessage(), ex);
+            throw new MappingException("Error while mapping object to entity: " + ex);
+        }
     }
 
     @Override
     public ExpenseDTO fromEntityToDTO(ExpenseEntity e) {
-        return ExpenseDTO.builder()
-                .id(e.getId())
-                .name(e.getName())
-                .description(e.getDescription())
-                .amount(e.getAmount())
-                .currency(e.getCurrency())
-                .expenseDate(e.getExpenseDate())
-                .requiresInvoice(e.getRequiresInvoice())
-                .isPaidInFull(e.getIsPaidInFull())
-                .installments(e.getInstallments())
-                .isRecurring(e.getIsRecurring())
-                .vendor(e.getVendor())
-                .location(e.getLocation())
-                .build();
+        try{
+            return ExpenseDTO.builder()
+                    .id(e.getId())
+                    .name(e.getName())
+                    .description(e.getDescription())
+                    .amount(e.getAmount())
+                    .currency(e.getCurrency())
+                    .expenseDate(e.getExpenseDate())
+                    .requiresInvoice(e.getRequiresInvoice())
+                    .isPaidInFull(e.getIsPaidInFull())
+                    .installments(e.getInstallments())
+                    .isRecurring(e.getIsRecurring())
+                    .vendor(e.getVendor())
+                    .location(e.getLocation())
+                    .build();
+        }
+        catch (Exception ex) {
+            log.error("Error occurred while mapping entity to dto: {}", ex.getMessage(), ex);
+            throw new MappingException("Error while mapping entity to dto: " + ex);
+        }
     }
 
     @Override
     public void updateEntity(ExpenseEntity existing, ExpenseEntity newData) {
-        existing.setName(newData.getName());
-        existing.setDescription(newData.getDescription());
-        existing.setAmount(newData.getAmount());
-        existing.setCurrency(newData.getCurrency());
-        existing.setExpenseDate(newData.getExpenseDate());
-        existing.setPaymentMethod(newData.getPaymentMethod());
-        existing.setRequiresInvoice(newData.getRequiresInvoice());
-        existing.setIsPaidInFull(newData.getIsPaidInFull());
-        existing.setInstallments(newData.getInstallments());
-        existing.setIsRecurring(newData.getIsRecurring());
-        existing.setRecurrenceType(newData.getRecurrenceType());
-        existing.setVendor(newData.getVendor());
-        existing.setLocation(newData.getLocation());
+        try{
+            existing.setName(newData.getName());
+            existing.setDescription(newData.getDescription());
+            existing.setAmount(newData.getAmount());
+            existing.setCurrency(newData.getCurrency());
+            existing.setExpenseDate(newData.getExpenseDate());
+            existing.setPaymentMethod(newData.getPaymentMethod());
+            existing.setRequiresInvoice(newData.getRequiresInvoice());
+            existing.setIsPaidInFull(newData.getIsPaidInFull());
+            existing.setInstallments(newData.getInstallments());
+            existing.setIsRecurring(newData.getIsRecurring());
+            existing.setRecurrenceType(newData.getRecurrenceType());
+            existing.setVendor(newData.getVendor());
+            existing.setLocation(newData.getLocation());
+        }
+        catch (Exception ex) {
+            log.error("Error occurred while updating (mapping) entity values: {}", ex.getMessage(), ex);
+            throw new MappingException("Error occurred while updating (mapping) entity values: " + ex);
+        }
     }
-
-
-
-
 
     @Override
     public Expense fromRequestToPojo(BaseExpenseRequest saveExpenseRequest) {
@@ -95,8 +109,8 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .build();
         }
         catch (Exception e) {
-            log.error("Error occurred while mapping request to expense: {}", e.getMessage(), e);
-            throw new MappingException("Error while mapping request to expense: " + e);
+            log.error("Error occurred while mapping request to object: {}", e.getMessage(), e);
+            throw new MappingException("Error while mapping request to object: " + e);
         }
     }
 }
