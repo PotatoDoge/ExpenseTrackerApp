@@ -4,11 +4,8 @@ import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.out.GetExpensesOutboundPort;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
-import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
-import jakarta.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
