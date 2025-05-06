@@ -1,5 +1,6 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.DeleteExpense.DeleteExpenseUseCase;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
@@ -7,13 +8,17 @@ import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
 import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseRequest;
 import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseUseCase;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
+import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
 import jakarta.servlet.ServletException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -27,10 +32,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.mockito.Mockito.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -48,6 +51,9 @@ public class ExpenseControllerUnitTest {
 
     @Mock
     private UpdateExpenseUseCase<ExpenseDTO> updateExpenseUseCase;
+
+    @Mock
+    private DeleteExpenseUseCase deleteExpenseUseCase;
 
     @InjectMocks
     private ExpenseController expenseController;
@@ -155,10 +161,25 @@ public class ExpenseControllerUnitTest {
         mockMvc.perform(put("/expenses/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(updateExpenseRequestAsJSON))
-                .andExpect(status().isCreated())
+                .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.message").value("Expense updated successfully"))
                 .andExpect(jsonPath("$.data.expense.name").value("Updated Lunch"))
                 .andExpect(jsonPath("$.data.expense.amount").value(60.0));
+    }
+
+    @Test
+    void testDeleteExpense_Success() throws Exception {
+        // Arrange
+        doNothing().when(deleteExpenseUseCase).deleteExpense(1L);
+
+        // Act & Assert
+        mockMvc.perform(delete("/expenses/{expenseId}", 1L)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$.timestamp").exists())
+                .andExpect(jsonPath("$.message").value("Expense deleted successfully"));
+
+        verify(deleteExpenseUseCase,Mockito.times(1)).deleteExpense(1L);
     }
 }
