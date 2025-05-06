@@ -1,0 +1,13 @@
+{
+  "name": "Lunch",
+  "description": "Description of expense",
+  "amount": 50.0,
+  "currency": "USD",
+  "dateTime": "2024-04-21T10:30:00",
+  "requiresInvoice": true,
+  "isPaidInFull": true,
+  "installments": 1,
+  "isRecurring": false,
+  "vendor": "Vendor A",
+  "location": "New York"
+}
