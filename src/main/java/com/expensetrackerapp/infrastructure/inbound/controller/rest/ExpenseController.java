@@ -1,5 +1,6 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.DeleteExpense.DeleteExpenseUseCase;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
 import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
 import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
@@ -30,6 +31,7 @@ public class ExpenseController {
     private final SaveExpenseUseCase<ExpenseDTO> saveExpenseUseCase;
     private final GetExpensesUseCase<ExpenseDTO, GetExpensesFilters> getExpensesUseCase;
     private final UpdateExpenseUseCase<ExpenseDTO> updateExpenseUseCase;
+    private final DeleteExpenseUseCase deleteExpenseUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveExpense(@RequestBody SaveExpenseRequest request) {
@@ -99,7 +101,20 @@ public class ExpenseController {
                 .message("Expense updated successfully")
                 .data(Map.of("expense", updatedExpense)).build();
         log.info("Expense updated successfully with ID: {}", updatedExpense.getId());
-        return ResponseEntity.status(201).body(response);
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @DeleteMapping("{expenseId}")
+    public ResponseEntity<CustomResponse> deleteExpense(@PathVariable Long expenseId) {
+        log.info("Received request to delete expense with ID: {}", expenseId);
+        deleteExpenseUseCase.deleteExpense(expenseId);
+        CustomResponse response = CustomResponse
+                .builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Expense deleted successfully")
+                .build();
+        log.info("Expense deleted successfully with ID: {}", expenseId);
+        return ResponseEntity.status(204).body(response);
     }
 
 }
