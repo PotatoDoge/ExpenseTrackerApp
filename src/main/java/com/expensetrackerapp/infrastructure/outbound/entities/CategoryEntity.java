@@ -22,8 +22,4 @@ public class CategoryEntity {
     private String name;
     private String icon;
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
-    private List<ExpenseEntity> expenses;
-
-
 }
