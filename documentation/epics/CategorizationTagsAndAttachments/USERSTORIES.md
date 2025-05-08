@@ -6,7 +6,7 @@
 ### 7.2 As a user, I want to view the category of each expense
 - So that I can easily analyze spending across different categories.
 
-### 7.3 As a user, I want to create, edit, and delete categories
+### 7.3 As a user, I want to create, read, edit, and delete categories
 - So that I can customize my categorization system according to my spending habits.
 
 ### 7.4 As a user, I want to assign tags to expenses
