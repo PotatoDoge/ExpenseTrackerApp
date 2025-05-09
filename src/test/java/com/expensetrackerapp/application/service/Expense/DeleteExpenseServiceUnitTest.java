@@ -1,8 +1,7 @@
-package com.expensetrackerapp.application.service;
+package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.out.Expense.DeleteExpenseOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.GetExpenseByIdOutboundPort;
-import com.expensetrackerapp.application.service.Expense.DeleteExpenseService;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
