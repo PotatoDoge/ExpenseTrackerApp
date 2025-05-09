@@ -39,7 +39,7 @@ public class ExpenseEntity {
     private String location;
 
     @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
+    @JoinColumn(name = "category_id")
     private CategoryEntity category;
 
     // TODO: Relationships for card, tags, attachments, etc
