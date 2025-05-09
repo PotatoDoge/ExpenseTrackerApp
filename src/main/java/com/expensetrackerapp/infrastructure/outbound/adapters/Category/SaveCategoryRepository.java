@@ -1,6 +1,6 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Category;
 
-import com.expensetrackerapp.application.port.out.SaveCategoryOutboundPort;
+import com.expensetrackerapp.application.port.out.Category.SaveCategoryOutboundPort;
 import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;

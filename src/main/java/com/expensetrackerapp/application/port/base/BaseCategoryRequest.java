@@ -1,4 +1,4 @@
-package com.expensetrackerapp.application.port;
+package com.expensetrackerapp.application.port.base;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

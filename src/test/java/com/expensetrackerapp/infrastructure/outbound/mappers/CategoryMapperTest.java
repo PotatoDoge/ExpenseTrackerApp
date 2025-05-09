@@ -1,6 +1,6 @@
 package com.expensetrackerapp.infrastructure.outbound.mappers;
 
-import com.expensetrackerapp.application.port.in.SaveCategory.SaveCategoryRequest;
+import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryRequest;
 import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.dto.CategoryDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;

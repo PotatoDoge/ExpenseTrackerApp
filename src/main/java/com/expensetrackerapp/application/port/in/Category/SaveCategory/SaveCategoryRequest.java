@@ -1,6 +1,6 @@
-package com.expensetrackerapp.application.port.in.SaveCategory;
+package com.expensetrackerapp.application.port.in.Category.SaveCategory;
 
-import com.expensetrackerapp.application.port.BaseCategoryRequest;
+import com.expensetrackerapp.application.port.base.BaseCategoryRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

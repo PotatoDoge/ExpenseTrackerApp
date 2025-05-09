@@ -1,4 +1,4 @@
-package com.expensetrackerapp.application.port.out;
+package com.expensetrackerapp.application.port.out.Category;
 
 import com.expensetrackerapp.domain.model.Category;
 

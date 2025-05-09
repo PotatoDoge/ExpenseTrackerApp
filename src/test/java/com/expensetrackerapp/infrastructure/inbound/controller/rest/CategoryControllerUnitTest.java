@@ -1,7 +1,7 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
-import com.expensetrackerapp.application.port.in.SaveCategory.SaveCategoryRequest;
-import com.expensetrackerapp.application.port.in.SaveCategory.SaveCategoryUseCase;
+import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryRequest;
+import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryUseCase;
 import com.expensetrackerapp.dto.CategoryDTO;
 import com.expensetrackerapp.shared.CustomResponse;
 import org.junit.jupiter.api.BeforeEach;

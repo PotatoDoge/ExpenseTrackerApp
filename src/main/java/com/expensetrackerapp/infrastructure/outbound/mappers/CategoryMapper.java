@@ -1,8 +1,7 @@
 package com.expensetrackerapp.infrastructure.outbound.mappers;
 
-import com.expensetrackerapp.application.port.BaseCategoryRequest;
+import com.expensetrackerapp.application.port.base.BaseCategoryRequest;
 import com.expensetrackerapp.domain.model.Category;
-import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.CategoryDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.shared.exceptions.MappingException;
