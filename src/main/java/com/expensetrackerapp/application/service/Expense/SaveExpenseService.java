@@ -13,6 +13,7 @@ import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
 import com.expensetrackerapp.shared.exceptions.MappingException;
+import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
 import com.expensetrackerapp.shared.exceptions.NullRequestException;
 import jakarta.persistence.PersistenceException;
 import lombok.AllArgsConstructor;
@@ -48,10 +49,13 @@ public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
             ExpenseEntity expenseEntity = saveExpensePort.saveExpense(expense);
             return expenseMapper.fromEntityToDTO(expenseEntity);
         }
+        catch (NotFoundInDatabase e){
+            throw e;
+        }
         catch (IllegalArgumentException | PersistenceException | DataAccessException |
                NullPointerException | ClassCastException e) {
             log.error("Error occurred while saving expense: {}", e.getClass().getSimpleName(), e);
-            throw new DatabaseInteractionException("Error while saving expense: " + e.getClass().getSimpleName());
+            throw new DatabaseInteractionException("Error while saving expense: " + e.getMessage());
         }
         catch (MappingException e) {
             throw new MappingException("Error while mapping expense: " + e.getClass().getSimpleName());
@@ -67,6 +71,6 @@ public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
 
         return getCategoryByIdRepository.getCategoryById(categoryId)
                 .map(categoryMapper::fromEntityToPOJO)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found with id: " + categoryId));
+                .orElseThrow(() -> new NotFoundInDatabase("Category not found with id: " + categoryId));
     }
 }
