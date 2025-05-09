@@ -34,7 +34,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .recurrenceType(e.getRecurrenceType())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
-                    .category(categoryMapper.fromPojoToEntity(e.getCategory()))
+                    .category(e.getCategory() != null ? categoryMapper.fromPojoToEntity(e.getCategory()) : null)
                     .build();
         }
         catch (Exception ex) {
@@ -59,7 +59,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .isRecurring(e.getIsRecurring())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
-                    .category(categoryMapper.fromEntityToDTO(e.getCategory()))
+                    .category(e.getCategory() != null ? categoryMapper.fromEntityToDTO(e.getCategory()) : null)
                     .build();
         }
         catch (Exception ex) {
