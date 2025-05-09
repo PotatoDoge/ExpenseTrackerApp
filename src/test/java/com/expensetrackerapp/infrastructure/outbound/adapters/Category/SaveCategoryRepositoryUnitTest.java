@@ -1,7 +1,6 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Category;
 
 import com.expensetrackerapp.domain.model.Category;
-import com.expensetrackerapp.infrastructure.outbound.adapters.Category.SaveCategoryRepository;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.repositories.CategoryRepository;
