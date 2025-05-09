@@ -84,6 +84,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
             existing.setRecurrenceType(newData.getRecurrenceType());
             existing.setVendor(newData.getVendor());
             existing.setLocation(newData.getLocation());
+            existing.setCategory(newData.getCategory());
         }
         catch (Exception ex) {
             log.error("Error occurred while updating (mapping) entity values: {}", ex.getMessage(), ex);
