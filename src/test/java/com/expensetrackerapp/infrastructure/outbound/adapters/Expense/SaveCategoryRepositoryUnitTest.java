@@ -1,4 +1,4 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
 
 import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.infrastructure.outbound.adapters.Category.SaveCategoryRepository;
