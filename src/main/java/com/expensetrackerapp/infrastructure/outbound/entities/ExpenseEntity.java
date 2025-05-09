@@ -42,5 +42,5 @@ public class ExpenseEntity {
     @JoinColumn(name = "category_id", nullable = false)
     private CategoryEntity category;
 
-    // TODO: Relationships for card, category, tags, attachments, etc
+    // TODO: Relationships for card, tags, attachments, etc
 }
