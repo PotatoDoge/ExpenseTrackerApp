@@ -1,5 +1,6 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.Category.DeleteCategory.DeleteCategoryUseCase;
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesFilters;
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesUseCase;
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryRequest;
@@ -24,6 +25,7 @@ public class CategoryController {
 
     private final SaveCategoryUseCase<CategoryDTO> saveCategoryUseCase;
     private final GetCategoriesUseCase<CategoryDTO, GetCategoriesFilters> getCategoriesUseCase;
+    private final DeleteCategoryUseCase deleteCategoryUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveCategory(@RequestBody SaveCategoryRequest saveCategoryRequest){
@@ -58,5 +60,17 @@ public class CategoryController {
                 .message("Categories fetched successfully")
                 .data(Map.of("categories", categories)).build();
         return ResponseEntity.status(200).body(response);
+    }
+
+    @DeleteMapping("{categoryId}")
+    public ResponseEntity<CustomResponse> deleteCategory(@PathVariable Long categoryId){
+        log.info("Received request to delete category with ID: {}", categoryId);
+        deleteCategoryUseCase.deleteCategory(categoryId);
+        CustomResponse response = CustomResponse
+                .builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Category deleted successfully")
+                .build();
+        return ResponseEntity.status(204).body(response);
     }
 }
