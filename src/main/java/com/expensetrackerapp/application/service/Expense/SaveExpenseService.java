@@ -1,8 +1,8 @@
-package com.expensetrackerapp.application.service;
+package com.expensetrackerapp.application.service.Expense;
 
-import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
-import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
-import com.expensetrackerapp.application.port.out.SaveExpenseOutboundPort;
+import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseRequest;
+import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseUseCase;
+import com.expensetrackerapp.application.port.out.Expense.SaveExpenseOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;

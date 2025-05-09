@@ -1,4 +1,4 @@
-package com.expensetrackerapp.application.port.in.GetExpenses;
+package com.expensetrackerapp.application.port.in.Expense.GetExpenses;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

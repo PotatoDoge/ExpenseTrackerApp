@@ -1,6 +1,6 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
 
-import com.expensetrackerapp.application.port.out.GetExpenseByIdOutboundPort;
+import com.expensetrackerapp.application.port.out.Expense.GetExpenseByIdOutboundPort;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
 import lombok.AllArgsConstructor;

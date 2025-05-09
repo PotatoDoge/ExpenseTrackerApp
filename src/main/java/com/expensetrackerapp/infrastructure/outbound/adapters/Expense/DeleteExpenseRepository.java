@@ -1,6 +1,6 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
 
-import com.expensetrackerapp.application.port.out.DeleteExpenseOutboundPort;
+import com.expensetrackerapp.application.port.out.Expense.DeleteExpenseOutboundPort;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;

@@ -1,12 +1,12 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
-import com.expensetrackerapp.application.port.in.DeleteExpense.DeleteExpenseUseCase;
-import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
-import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesUseCase;
-import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseRequest;
-import com.expensetrackerapp.application.port.in.SaveExpense.SaveExpenseUseCase;
-import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseRequest;
-import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseUseCase;
+import com.expensetrackerapp.application.port.in.Expense.DeleteExpense.DeleteExpenseUseCase;
+import com.expensetrackerapp.application.port.in.Expense.GetExpenses.GetExpensesFilters;
+import com.expensetrackerapp.application.port.in.Expense.GetExpenses.GetExpensesUseCase;
+import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseRequest;
+import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseUseCase;
+import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
+import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseUseCase;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.shared.CustomResponse;
 
