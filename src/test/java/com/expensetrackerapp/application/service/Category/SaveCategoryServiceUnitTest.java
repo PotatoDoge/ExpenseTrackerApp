@@ -1,8 +1,7 @@
-package com.expensetrackerapp.application.service;
+package com.expensetrackerapp.application.service.Category;
 
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryRequest;
 import com.expensetrackerapp.application.port.out.Category.SaveCategoryOutboundPort;
-import com.expensetrackerapp.application.service.Category.SaveCategoryService;
 import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.dto.CategoryDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
