@@ -2,10 +2,14 @@ package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseUseCase;
+import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
+import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
 import com.expensetrackerapp.shared.exceptions.MappingException;
@@ -26,6 +30,8 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
 
     private final UpdateExpenseOutboundPort<ExpenseEntity> updateExpenseOutboundPort;
     private final ExpenseMapper expenseMapper;
+    private final GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
+    private final CategoryMapper categoryMapper;
 
     @Override
     public ExpenseDTO updateExpense(UpdateExpenseRequest updateExpenseRequest, Long expenseId) {
@@ -37,6 +43,7 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
         Expense expense;
         try{
             expense = expenseMapper.fromRequestToPojo(updateExpenseRequest);
+            expense.setCategory(validateAndMapCategory(updateExpenseRequest.getCategoryId()));
             log.info("Updating expense: {}", expense);
             ExpenseEntity expenseEntity = updateExpenseOutboundPort.updateExpense(expense, expenseId);
             return expenseMapper.fromEntityToDTO(expenseEntity);
@@ -47,7 +54,7 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
         catch (IllegalArgumentException | PersistenceException | DataAccessException |
                NullPointerException | ClassCastException e) {
             log.error("Error occurred while updating expense: {}", e.getClass().getSimpleName(), e);
-            throw new DatabaseInteractionException("Error while updating expense: " + e.getClass().getSimpleName());
+            throw new DatabaseInteractionException("Error while updating expense: " + e.getMessage());
         }
         catch (MappingException e) {
             throw new MappingException("Error while mapping expense: " + e.getClass().getSimpleName());
@@ -56,5 +63,13 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
             log.error("Unexpected error occurred while updating expense", e);
             throw new DatabaseInteractionException("Unhandled error while updating expense.");
         }
+    }
+
+    private Category validateAndMapCategory(Long categoryId) {
+        if (categoryId == null) return null;
+
+        return getCategoryByIdRepository.getCategoryById(categoryId)
+                .map(categoryMapper::fromEntityToPOJO)
+                .orElseThrow(() -> new NotFoundInDatabase("Category not found with id: " + categoryId));
     }
 }
