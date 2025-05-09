@@ -4,6 +4,8 @@ import com.expensetrackerapp.application.port.in.Category.DeleteCategory.DeleteC
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesFilters;
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesUseCase;
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryUseCase;
+import com.expensetrackerapp.application.port.in.Category.UpdateCategory.UpdateCategoryRequest;
+import com.expensetrackerapp.application.port.in.Category.UpdateCategory.UpdateCategoryUseCase;
 import com.expensetrackerapp.dto.CategoryDTO;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -40,6 +42,9 @@ class CategoryControllerUnitTest {
 
     @Mock
     private DeleteCategoryUseCase deleteCategoryUseCase;
+
+    @Mock
+    private UpdateCategoryUseCase<CategoryDTO> updateCategoryUseCase;
 
     @InjectMocks
     private CategoryController categoryController;
@@ -128,4 +133,31 @@ class CategoryControllerUnitTest {
 
         verify(deleteCategoryUseCase, Mockito.times(1)).deleteCategory(categoryId);
     }
+
+    @Test
+    void updateCategory_shouldReturn200_whenUpdateIsSuccessful() throws Exception {
+        Long categoryId = 1L;
+        String updateCategoryRequestAsJson = readJson("messages/Category/UpdateCategoryRequest.json");
+
+        CategoryDTO updatedCategory = CategoryDTO.builder()
+                .id(categoryId)
+                .name("Updated Category")
+                .icon("updated-icon")
+                .build();
+
+        when(updateCategoryUseCase.updateCategory(any(UpdateCategoryRequest.class), eq(categoryId)))
+                .thenReturn(updatedCategory);
+
+        mockMvc.perform(put("/categories/{categoryId}", categoryId)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(updateCategoryRequestAsJson))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.message").value("Category updated successfully"))
+                .andExpect(jsonPath("$.data.category.id").value(categoryId))
+                .andExpect(jsonPath("$.data.category.name").value("Updated Category"))
+                .andExpect(jsonPath("$.data.category.icon").value("updated-icon"));
+
+        verify(updateCategoryUseCase).updateCategory(any(UpdateCategoryRequest.class), eq(categoryId));
+    }
+
 }
