@@ -61,7 +61,7 @@ class CategoryControllerUnitTest {
     @Test
     void saveCategory_shouldReturn201AndValidResponse() throws Exception {
 
-        String saveExpenseRequestAsJSON = readJson("messages/SaveExpenseRequest.json");
+        String saveExpenseRequestAsJSON = readJson("messages/Expense/SaveExpenseRequest.json");
 
         when(saveCategoryUseCase.saveCategory(any())).thenReturn(savedCategory);
 

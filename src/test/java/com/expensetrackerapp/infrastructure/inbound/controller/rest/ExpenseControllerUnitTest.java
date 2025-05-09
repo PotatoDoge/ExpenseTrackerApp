@@ -85,7 +85,7 @@ public class ExpenseControllerUnitTest {
     @Test
     void testSaveExpenseSuccess() throws Exception {
 
-        String saveExpenseRequestAsJSON = readJson("messages/SaveExpenseRequest.json");
+        String saveExpenseRequestAsJSON = readJson("messages/Expense/SaveExpenseRequest.json");
         when(saveExpenseUseCase.saveExpense(any(SaveExpenseRequest.class)))
                 .thenReturn(expenseDTO);
 
@@ -135,7 +135,7 @@ public class ExpenseControllerUnitTest {
 
     @Test
     void testUpdateExpenseSuccess() throws Exception {
-        String updateExpenseRequestAsJSON = readJson("messages/UpdateExpenseRequest.json");
+        String updateExpenseRequestAsJSON = readJson("messages/Expense/UpdateExpenseRequest.json");
 
         ExpenseDTO updatedExpenseDTO = ExpenseDTO.builder()
                 .id(1L)
