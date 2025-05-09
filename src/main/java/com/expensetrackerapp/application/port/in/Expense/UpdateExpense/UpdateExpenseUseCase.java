@@ -1,4 +1,4 @@
-package com.expensetrackerapp.application.port.in.UpdateExpense;
+package com.expensetrackerapp.application.port.in.Expense.UpdateExpense;
 
 
 public interface UpdateExpenseUseCase <T> {

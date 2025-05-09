@@ -1,4 +1,4 @@
-package com.expensetrackerapp.application.port;
+package com.expensetrackerapp.application.port.base;
 
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;

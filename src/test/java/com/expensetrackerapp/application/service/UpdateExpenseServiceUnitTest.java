@@ -1,7 +1,8 @@
 package com.expensetrackerapp.application.service;
 
-import com.expensetrackerapp.application.port.in.UpdateExpense.UpdateExpenseRequest;
-import com.expensetrackerapp.application.port.out.UpdateExpenseOutboundPort;
+import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
+import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
+import com.expensetrackerapp.application.service.Expense.UpdateExpenseService;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import com.expensetrackerapp.domain.model.*;

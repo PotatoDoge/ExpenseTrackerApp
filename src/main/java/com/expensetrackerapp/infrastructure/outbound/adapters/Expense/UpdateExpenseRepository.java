@@ -1,6 +1,6 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
 
-import com.expensetrackerapp.application.port.out.UpdateExpenseOutboundPort;
+import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;

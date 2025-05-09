@@ -1,6 +1,6 @@
-package com.expensetrackerapp.application.port.in.SaveExpense;
+package com.expensetrackerapp.application.port.in.Expense.SaveExpense;
 
-import com.expensetrackerapp.application.port.BaseExpenseRequest;
+import com.expensetrackerapp.application.port.base.BaseExpenseRequest;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
