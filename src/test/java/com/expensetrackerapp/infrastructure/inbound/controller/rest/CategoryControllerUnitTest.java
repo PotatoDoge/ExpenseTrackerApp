@@ -1,5 +1,6 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.Category.DeleteCategory.DeleteCategoryUseCase;
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesFilters;
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesUseCase;
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryUseCase;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -21,7 +23,7 @@ import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -35,6 +37,9 @@ class CategoryControllerUnitTest {
 
     @Mock
     private GetCategoriesUseCase<CategoryDTO, GetCategoriesFilters> getCategoryUseCase;
+
+    @Mock
+    private DeleteCategoryUseCase deleteCategoryUseCase;
 
     @InjectMocks
     private CategoryController categoryController;
@@ -105,5 +110,22 @@ class CategoryControllerUnitTest {
         mockMvc.perform(get("/categories"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.categories", hasSize(0)));
+    }
+
+    @Test
+    void deleteCategory_shouldReturn204AndCallUseCase() throws Exception {
+        // Given
+        Long categoryId = 1L;
+
+        doNothing().when(deleteCategoryUseCase).deleteCategory(1L);
+
+        // When & Then
+        mockMvc.perform(delete("/categories/{categoryId}", categoryId)
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+                .andExpect(jsonPath("$.message").value("Category deleted successfully"))
+                .andExpect(jsonPath("$.timestamp").exists());
+
+        verify(deleteCategoryUseCase, Mockito.times(1)).deleteCategory(categoryId);
     }
 }
