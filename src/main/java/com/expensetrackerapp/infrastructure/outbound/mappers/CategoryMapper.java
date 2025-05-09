@@ -28,7 +28,14 @@ public class CategoryMapper implements ExtendedMapper<Category, CategoryEntity, 
 
     @Override
     public void updateEntity(CategoryEntity existingEntity, CategoryEntity newEntity) {
-
+        try{
+            existingEntity.setName(newEntity.getName());
+            existingEntity.setIcon(newEntity.getIcon());
+        }
+        catch (Exception e) {
+            log.error("Error occurred while mapping new attributes to existing object: {}", e.getMessage(), e);
+            throw new MappingException("Error while mapping new attributes to existing object: " + e);
+        }
     }
 
     @Override
