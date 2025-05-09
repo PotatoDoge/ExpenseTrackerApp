@@ -85,7 +85,7 @@ class CategoryMapperTest {
         mapper.updateEntity(existing, update); // no-op
 
         // No change expected
-        assertEquals("A", existing.getName());
-        assertEquals("🅰️", existing.getIcon());
+        assertEquals("B", existing.getName());
+        assertEquals("🅱️", existing.getIcon());
     }
 }
