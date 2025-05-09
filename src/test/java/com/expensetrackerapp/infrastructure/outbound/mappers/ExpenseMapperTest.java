@@ -1,6 +1,6 @@
 package com.expensetrackerapp.infrastructure.outbound.mappers;
 
-import com.expensetrackerapp.application.port.BaseExpenseRequest;
+import com.expensetrackerapp.application.port.base.BaseExpenseRequest;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import com.expensetrackerapp.domain.model.Expense;

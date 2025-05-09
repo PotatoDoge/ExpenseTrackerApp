@@ -1,7 +1,8 @@
 package com.expensetrackerapp.application.service;
 
-import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
-import com.expensetrackerapp.application.port.out.GetExpensesOutboundPort;
+import com.expensetrackerapp.application.port.in.Expense.GetExpenses.GetExpensesFilters;
+import com.expensetrackerapp.application.port.out.Expense.GetExpensesOutboundPort;
+import com.expensetrackerapp.application.service.Expense.GetExpensesService;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;

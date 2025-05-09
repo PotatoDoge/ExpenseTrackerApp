@@ -1,6 +1,7 @@
 package com.expensetrackerapp.infrastructure.outbound.adapters;
 
-import com.expensetrackerapp.application.port.in.GetExpenses.GetExpensesFilters;
+import com.expensetrackerapp.application.port.in.Expense.GetExpenses.GetExpensesFilters;
+import com.expensetrackerapp.infrastructure.outbound.adapters.Expense.GetExpensesRepository;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
 import org.junit.jupiter.api.BeforeEach;
