@@ -1,6 +1,5 @@
-package com.expensetrackerapp.infrastructure.outbound.adapters;
+package com.expensetrackerapp.infrastructure.outbound.adapters.Expense;
 
-import com.expensetrackerapp.infrastructure.outbound.adapters.Expense.DeleteExpenseRepository;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
