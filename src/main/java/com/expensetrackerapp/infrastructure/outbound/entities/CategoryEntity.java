@@ -22,4 +22,7 @@ public class CategoryEntity {
     private String name;
     private String icon;
 
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<ExpenseEntity> expenses;
+
 }
