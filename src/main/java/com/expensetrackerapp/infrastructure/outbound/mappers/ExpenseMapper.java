@@ -5,12 +5,16 @@ import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.shared.exceptions.MappingException;
+import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 @Log4j2
 @Component
+@AllArgsConstructor
 public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, ExpenseDTO, BaseExpenseRequest> {
+
+    private final CategoryMapper categoryMapper;
 
     @Override
     public ExpenseEntity fromPojoToEntity(Expense e) {
@@ -30,6 +34,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .recurrenceType(e.getRecurrenceType())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
+                    .category(categoryMapper.fromPojoToEntity(e.getCategory()))
                     .build();
         }
         catch (Exception ex) {
@@ -54,6 +59,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .isRecurring(e.getIsRecurring())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
+                    .category(categoryMapper.fromEntityToDTO(e.getCategory()))
                     .build();
         }
         catch (Exception ex) {
@@ -86,6 +92,11 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
     }
 
     @Override
+    public Expense fromEntityToPOJO(ExpenseEntity expenseEntity) {
+        return null;
+    }
+
+    @Override
     public Expense fromRequestToPojo(BaseExpenseRequest saveExpenseRequest) {
         try{
             return Expense.builder()
@@ -103,7 +114,6 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .vendor(saveExpenseRequest.getVendor())
                     .location(saveExpenseRequest.getLocation())
                     .card(saveExpenseRequest.getCard())
-                    .category(saveExpenseRequest.getCategory())
                     .tags(saveExpenseRequest.getTags())
                     .attachments(saveExpenseRequest.getAttachments())
                     .build();
