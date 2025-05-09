@@ -5,6 +5,9 @@ import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCateg
 import com.expensetrackerapp.application.port.in.Category.GetCategories.GetCategoriesUseCase;
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryRequest;
 import com.expensetrackerapp.application.port.in.Category.SaveCategory.SaveCategoryUseCase;
+import com.expensetrackerapp.application.port.in.Category.UpdateCategory.UpdateCategoryRequest;
+import com.expensetrackerapp.application.port.in.Category.UpdateCategory.UpdateCategoryUseCase;
+import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
 import com.expensetrackerapp.dto.CategoryDTO;
 import com.expensetrackerapp.shared.CustomResponse;
 import lombok.AllArgsConstructor;
@@ -26,6 +29,7 @@ public class CategoryController {
     private final SaveCategoryUseCase<CategoryDTO> saveCategoryUseCase;
     private final GetCategoriesUseCase<CategoryDTO, GetCategoriesFilters> getCategoriesUseCase;
     private final DeleteCategoryUseCase deleteCategoryUseCase;
+    private final UpdateCategoryUseCase<CategoryDTO> updateCategoryUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveCategory(@RequestBody SaveCategoryRequest saveCategoryRequest){
@@ -72,5 +76,17 @@ public class CategoryController {
                 .message("Category deleted successfully")
                 .build();
         return ResponseEntity.status(204).body(response);
+    }
+
+    @PutMapping("{categoryId}")
+    public ResponseEntity<CustomResponse> updateCategory(@RequestBody UpdateCategoryRequest updateCategoryRequest, @PathVariable Long categoryId){
+        log.info("Received request to update category with ID: {}", categoryId);
+        CategoryDTO updatedCategory = updateCategoryUseCase.updateCategory(updateCategoryRequest, categoryId);
+        CustomResponse response = CustomResponse
+                .builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Category updated successfully")
+                .data(Map.of("category", updatedCategory)).build();
+        return ResponseEntity.status(200).body(response);
     }
 }
