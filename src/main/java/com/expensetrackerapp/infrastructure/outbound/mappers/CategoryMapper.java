@@ -39,6 +39,21 @@ public class CategoryMapper implements ExtendedMapper<Category, CategoryEntity, 
     }
 
     @Override
+    public Category fromEntityToPOJO(CategoryEntity categoryEntity) {
+        try{
+            return Category.builder()
+                    .id(categoryEntity.getId())
+                    .name(categoryEntity.getName())
+                    .icon(categoryEntity.getIcon())
+                    .build();
+        }
+        catch (Exception e) {
+            log.error("Error occurred while mapping categoryEntity to pojo: {}", e.getMessage(), e);
+            throw new MappingException("Error while mapping entity to pojo: " + e);
+        }
+    }
+
+    @Override
     public CategoryEntity fromPojoToEntity(Category category) {
         try{
             return CategoryEntity.builder()

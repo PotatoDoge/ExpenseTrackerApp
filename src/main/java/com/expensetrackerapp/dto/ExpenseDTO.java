@@ -22,6 +22,7 @@ public class ExpenseDTO {
     private Boolean isRecurring;
     private String vendor;
     private String location;
+    private CategoryDTO category;
 
     // TODO: Add missing Expense fields; these are msising due to missing POJOs dtos
 

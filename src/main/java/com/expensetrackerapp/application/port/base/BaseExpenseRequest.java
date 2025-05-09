@@ -35,7 +35,7 @@ public abstract class BaseExpenseRequest {
     private String vendor;
     private String location;
     private Card card;
-    private Category category;
+    private Long categoryId;
     private Set<Tag> tags;
     private Set<Attachment> attachments;
 

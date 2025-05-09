@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "expenses")
@@ -39,5 +38,9 @@ public class ExpenseEntity {
     private String vendor;
     private String location;
 
-    // TODO: Relationships for card, category, tags, attachments, etc
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
+
+    // TODO: Relationships for card, tags, attachments, etc
 }

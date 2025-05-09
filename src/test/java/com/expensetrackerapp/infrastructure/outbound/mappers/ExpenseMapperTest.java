@@ -9,20 +9,24 @@ import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.shared.exceptions.MappingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@ExtendWith( MockitoExtension.class)
 class ExpenseMapperTest {
 
-    private ExpenseMapper mapper;
+    @Mock
+    private CategoryMapper categoryMapper;
 
-    @BeforeEach
-    void setUp() {
-        mapper = new ExpenseMapper();
-    }
+    @InjectMocks
+    private ExpenseMapper mapper;
 
     private Expense createSampleExpense() {
         return Expense.builder()

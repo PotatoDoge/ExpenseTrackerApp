@@ -1,10 +1,7 @@
 package com.expensetrackerapp.infrastructure.outbound.entities;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.List;
 
@@ -14,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = "expenses")
 public class CategoryEntity {
 
     @Id
@@ -21,5 +19,8 @@ public class CategoryEntity {
     private Long id;
     private String name;
     private String icon;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    private List<ExpenseEntity> expenses;
 
 }

@@ -38,7 +38,7 @@ public class ExpenseController {
         log.info("Received request to save expense: name={}, amount={}, category={}",
                 request.getName(),
                 request.getAmount(),
-                request.getCategory());
+                request.getCategoryId());
         ExpenseDTO savedExpense = saveExpenseUseCase.saveExpense(request);
         CustomResponse response = CustomResponse
                 .builder()
@@ -93,7 +93,7 @@ public class ExpenseController {
         log.info("Received request to update expense: name={}, amount={}, category={}",
                 request.getName(),
                 request.getAmount(),
-                request.getCategory());
+                request.getCategoryId());
         ExpenseDTO updatedExpense = updateExpenseUseCase.updateExpense(request, expenseId);
         CustomResponse response = CustomResponse
                 .builder()

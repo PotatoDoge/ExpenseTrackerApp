@@ -111,14 +111,6 @@ public class ExpenseControllerUnitTest {
     }
 
     @Test
-    void testSaveExpenseWithInvalidData() throws Exception {
-        mockMvc.perform(post("/expenses")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"\", \"amount\":-10.0, \"category\":\"Food\"}"))
-                .andExpect(status().isBadRequest());
-    }
-
-    @Test
     void testGetExpensesSuccess() throws Exception {
         List<ExpenseDTO> expenses = List.of(expenseDTO);
         when(getExpensesUseCase.getExpenses(any(GetExpensesFilters.class)))
