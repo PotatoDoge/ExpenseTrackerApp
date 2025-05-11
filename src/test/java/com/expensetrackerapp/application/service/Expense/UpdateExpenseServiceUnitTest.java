@@ -1,12 +1,15 @@
 package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
+import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import com.expensetrackerapp.domain.model.*;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.shared.exceptions.*;
 
@@ -32,6 +35,12 @@ class UpdateExpenseServiceUnitTest {
 
     @Mock
     private ExpenseMapper expenseMapper;
+
+    @Mock
+    private GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
+
+    @Mock
+    private CategoryMapper categoryMapper;
 
     @InjectMocks
     private UpdateExpenseService updateExpenseService;
@@ -60,7 +69,7 @@ class UpdateExpenseServiceUnitTest {
                 .vendor("Supermarket")
                 .location("City Center")
                 .card(new Card())
-                .category(new Category())
+                .categoryId(null)
                 .tags(Set.of(new Tag()))
                 .attachments(Set.of(new Attachment()))
                 .build();
@@ -81,7 +90,7 @@ class UpdateExpenseServiceUnitTest {
                 .vendor("Supermarket")
                 .location("City Center")
                 .card(new Card())
-                .category(new Category())
+                .category(null)
                 .tags(Set.of(new Tag()))
                 .attachments(Set.of(new Attachment()))
                 .build();
@@ -101,6 +110,7 @@ class UpdateExpenseServiceUnitTest {
                 .recurrenceType(RecurrenceType.WEEKLY)
                 .vendor("Supermarket")
                 .location("City Center")
+                .category(null)
                 .build();
 
         expenseDTO = ExpenseDTO.builder()
@@ -116,6 +126,7 @@ class UpdateExpenseServiceUnitTest {
                 .isRecurring(true)
                 .vendor("Supermarket")
                 .location("City Center")
+                .category(null)
                 .build();
     }
 
