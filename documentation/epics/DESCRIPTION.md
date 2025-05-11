@@ -8,7 +8,6 @@
 | 7 | Categorization, Tags, and Attachments | Categorize, tag, and attach documents to expenses |
 | 8 | Reporting and Insights | Generate reports and monitor spending trends |
 
-
 | User Story ID | Description                                                     | Status |
 |---------------|-----------------------------------------------------------------|--------|
 | 1.1           | Create a new expense                                            | ✅️     |
