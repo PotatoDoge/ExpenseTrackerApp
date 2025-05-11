@@ -4,9 +4,9 @@
 | 2 | Payment Methods Management | Manage different methods of payment |
 | 3 | Installment and Full Payment Tracking | Support for installment payments or full payments |
 | 4 | Invoice Requirement Tracking | Track if expenses require invoices |
-| 5 | Recurring Expenses Management | Manage subscriptions and regular payments |
-| 6 | Categorization, Tags, and Attachments | Categorize, tag, and attach documents to expenses |
-| 7 | Reporting and Insights | Generate reports and monitor spending trends |
+| 6 | Recurring Expenses Management | Manage subscriptions and regular payments |
+| 7 | Categorization, Tags, and Attachments | Categorize, tag, and attach documents to expenses |
+| 8 | Reporting and Insights | Generate reports and monitor spending trends |
 
 
 | User Story ID | Description                                                     | Status |
