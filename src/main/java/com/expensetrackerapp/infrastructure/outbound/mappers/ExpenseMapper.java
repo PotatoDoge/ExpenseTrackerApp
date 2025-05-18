@@ -39,7 +39,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .tags(e.getTags() != null
                             ? e.getTags().stream()
                             .map(tagMapper::fromPojoToEntity)
-                            .collect(Collectors.toSet())
+                            .collect(Collectors.toList())
                             : null)
                     .category(e.getCategory() != null ? categoryMapper.fromPojoToEntity(e.getCategory()) : null)
                     .build();
@@ -66,6 +66,11 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .isRecurring(e.getIsRecurring())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
+                    .tags(e.getTags() != null
+                            ? e.getTags().stream()
+                            .map(tagMapper::fromEntityToDTO)
+                            .collect(Collectors.toSet())
+                            : null)
                     .category(e.getCategory() != null ? categoryMapper.fromEntityToDTO(e.getCategory()) : null)
                     .build();
         }

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "expenses")
@@ -49,7 +49,7 @@ public class ExpenseEntity {
             joinColumns = @JoinColumn(name = "expense_id"),
             inverseJoinColumns = @JoinColumn(name = "tag_id")
     )
-    private Set<TagEntity> tags;
+    private List<TagEntity> tags;
 
     // TODO: Relationships for card, attachments, etc
 }
