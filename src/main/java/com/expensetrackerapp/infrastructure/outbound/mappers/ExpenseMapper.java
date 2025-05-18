@@ -115,7 +115,6 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .vendor(saveExpenseRequest.getVendor())
                     .location(saveExpenseRequest.getLocation())
                     .card(saveExpenseRequest.getCard())
-                    .tags(saveExpenseRequest.getTags())
                     .attachments(saveExpenseRequest.getAttachments())
                     .build();
         }
