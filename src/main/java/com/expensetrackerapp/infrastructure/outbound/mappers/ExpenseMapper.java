@@ -8,6 +8,7 @@ import com.expensetrackerapp.shared.exceptions.MappingException;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
+import java.util.stream.Collectors;
 
 @Log4j2
 @Component
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, ExpenseDTO, BaseExpenseRequest> {
 
     private final CategoryMapper categoryMapper;
+    private final TagMapper tagMapper;
 
     @Override
     public ExpenseEntity fromPojoToEntity(Expense e) {
@@ -34,6 +36,11 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .recurrenceType(e.getRecurrenceType())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
+                    .tags(e.getTags() != null
+                            ? e.getTags().stream()
+                            .map(tagMapper::fromPojoToEntity)
+                            .collect(Collectors.toSet())
+                            : null)
                     .category(e.getCategory() != null ? categoryMapper.fromPojoToEntity(e.getCategory()) : null)
                     .build();
         }
