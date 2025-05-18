@@ -37,7 +37,7 @@ public abstract class BaseExpenseRequest {
     private String location;
     private Card card;
     private Long categoryId;
-    private Set<Map<String, String>> tags; // <tagName, tagColor>
+    private Map<String, String> tags; // <tagName, tagColor>
     private Set<Attachment> attachments;
 
 }
