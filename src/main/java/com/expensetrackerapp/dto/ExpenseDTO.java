@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 @Builder
@@ -23,6 +24,7 @@ public class ExpenseDTO {
     private String vendor;
     private String location;
     private CategoryDTO category;
+    private List<TagDTO> tags;
 
     // TODO: Add missing Expense fields; these are msising due to missing POJOs dtos
 

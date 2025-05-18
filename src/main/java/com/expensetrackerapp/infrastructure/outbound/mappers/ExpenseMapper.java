@@ -69,7 +69,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .tags(e.getTags() != null
                             ? e.getTags().stream()
                             .map(tagMapper::fromEntityToDTO)
-                            .collect(Collectors.toSet())
+                            .collect(Collectors.toList())
                             : null)
                     .category(e.getCategory() != null ? categoryMapper.fromEntityToDTO(e.getCategory()) : null)
                     .build();
