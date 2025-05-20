@@ -25,6 +25,7 @@ import org.springframework.dao.DataAccessException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
@@ -74,7 +75,7 @@ public class SaveExpenseServiceUnitTest {
                 .location("New York")
                 .card(new Card())
                 .categoryId(1L)
-                .tags(Set.of(new Tag()))
+                .tags(Map.of())
                 .attachments(Set.of(new Attachment()))
                 .build();
 
