@@ -66,7 +66,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .isRecurring(e.getIsRecurring())
                     .vendor(e.getVendor())
                     .location(e.getLocation())
-                    .tags(e.getTags() != null
+                    .tags(e.getTags() != null && !e.getTags().isEmpty()
                             ? e.getTags().stream()
                             .map(tagMapper::fromEntityToDTO)
                             .collect(Collectors.toList())
