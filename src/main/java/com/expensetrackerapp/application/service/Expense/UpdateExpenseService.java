@@ -4,34 +4,47 @@ import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExp
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseUseCase;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
-import com.expensetrackerapp.domain.model.Category;
+import com.expensetrackerapp.application.port.out.Tag.GetTagByNameOutboundPort;
+import com.expensetrackerapp.application.port.out.Tag.SaveTagOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.entities.TagEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
+import com.expensetrackerapp.infrastructure.outbound.mappers.TagMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
 import com.expensetrackerapp.shared.exceptions.MappingException;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
 import com.expensetrackerapp.shared.exceptions.NullRequestException;
 import jakarta.persistence.PersistenceException;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Objects;
+import java.util.*;
 
 @Service
-@AllArgsConstructor
 @Log4j2
-public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
+public class UpdateExpenseService extends BaseExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
 
     private final UpdateExpenseOutboundPort<ExpenseEntity> updateExpenseOutboundPort;
     private final ExpenseMapper expenseMapper;
-    private final GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
-    private final CategoryMapper categoryMapper;
+
+    public UpdateExpenseService(
+            UpdateExpenseOutboundPort<ExpenseEntity> updateExpenseOutboundPort,
+            ExpenseMapper expenseMapper,
+            GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository,
+            GetTagByNameOutboundPort<TagEntity> getTagByNameRepository,
+            SaveTagOutboundPort<TagEntity> saveTagRepository,
+            CategoryMapper categoryMapper,
+            TagMapper tagMapper
+    ) {
+        super(getCategoryByIdRepository, getTagByNameRepository, saveTagRepository, categoryMapper, tagMapper);
+        this.updateExpenseOutboundPort = updateExpenseOutboundPort;
+        this.expenseMapper = expenseMapper;
+    }
 
     @Override
     public ExpenseDTO updateExpense(UpdateExpenseRequest updateExpenseRequest, Long expenseId) {
@@ -44,6 +57,7 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
         try{
             expense = expenseMapper.fromRequestToPojo(updateExpenseRequest);
             expense.setCategory(validateAndMapCategory(updateExpenseRequest.getCategoryId()));
+            expense.setTags(validateAndMapTags(updateExpenseRequest.getTags()));
             log.info("Updating expense: {}", expense);
             ExpenseEntity expenseEntity = updateExpenseOutboundPort.updateExpense(expense, expenseId);
             return expenseMapper.fromEntityToDTO(expenseEntity);
@@ -63,13 +77,5 @@ public class UpdateExpenseService implements UpdateExpenseUseCase<ExpenseDTO> {
             log.error("Unexpected error occurred while updating expense", e);
             throw new DatabaseInteractionException("Unhandled error while updating expense.");
         }
-    }
-
-    private Category validateAndMapCategory(Long categoryId) {
-        if (categoryId == null) return null;
-
-        return getCategoryByIdRepository.getCategoryById(categoryId)
-                .map(categoryMapper::fromEntityToPOJO)
-                .orElseThrow(() -> new NotFoundInDatabase("Category not found with id: " + categoryId));
     }
 }
