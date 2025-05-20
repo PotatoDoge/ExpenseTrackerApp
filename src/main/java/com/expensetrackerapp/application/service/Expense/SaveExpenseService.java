@@ -6,9 +6,7 @@ import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutbou
 import com.expensetrackerapp.application.port.out.Expense.SaveExpenseOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.GetTagByNameOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.SaveTagOutboundPort;
-import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.domain.model.Expense;
-import com.expensetrackerapp.domain.model.Tag;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
@@ -21,28 +19,32 @@ import com.expensetrackerapp.shared.exceptions.MappingException;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
 import com.expensetrackerapp.shared.exceptions.NullRequestException;
 import jakarta.persistence.PersistenceException;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
-import java.util.stream.Collectors;
-
-import static com.expensetrackerapp.shared.constants.Colors.WHITE;
+import java.util.Objects;
 
 @Service
-@AllArgsConstructor
 @Log4j2
-public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
+public class SaveExpenseService extends BaseExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
 
     private final SaveExpenseOutboundPort<ExpenseEntity> saveExpensePort;
-    private final GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
-    private final GetTagByNameOutboundPort<TagEntity> getTagByNameRepository;
-    private final SaveTagOutboundPort<TagEntity> saveTagRepository;
     private final ExpenseMapper expenseMapper;
-    private final CategoryMapper categoryMapper;
-    private final TagMapper tagMapper;
+
+    public SaveExpenseService(
+            SaveExpenseOutboundPort<ExpenseEntity> saveExpensePort,
+            ExpenseMapper expenseMapper,
+            GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository,
+            GetTagByNameOutboundPort<TagEntity> getTagByNameRepository,
+            SaveTagOutboundPort<TagEntity> saveTagRepository,
+            CategoryMapper categoryMapper,
+            TagMapper tagMapper
+    ) {
+        super(getCategoryByIdRepository, getTagByNameRepository, saveTagRepository, categoryMapper, tagMapper);
+        this.saveExpensePort = saveExpensePort;
+        this.expenseMapper = expenseMapper;
+    }
 
     @Override
     public ExpenseDTO saveExpense(SaveExpenseRequest saveExpenseRequest) {
@@ -76,34 +78,5 @@ public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
             log.error("Unexpected error occurred while saving expense", e);
             throw new DatabaseInteractionException("Unhandled error while saving expenses.");
         }
-    }
-
-    private Category validateAndMapCategory(Long categoryId) {
-        if (categoryId == null) return null;
-
-        return getCategoryByIdRepository.getCategoryById(categoryId)
-                .map(categoryMapper::fromEntityToPOJO)
-                .orElseThrow(() -> new NotFoundInDatabase("Category not found with id: " + categoryId));
-    }
-
-    private Set<Tag> validateAndMapTags(Map<String, String> tags) {
-        if (tags == null || tags.isEmpty()) {
-            return Collections.emptySet();
-        }
-
-        return tags.entrySet().stream()
-                .filter(entry -> entry.getKey() != null && !entry.getKey().isBlank()) // skip null/blank keys
-                .map(entry -> {
-                    String tagName = entry.getKey().toUpperCase();
-                    String tagColor = (entry.getValue() == null || entry.getValue().isBlank())
-                            ? WHITE
-                            : entry.getValue().trim();
-                    Optional<TagEntity> tagEntityOpt = getTagByNameRepository.getTagByName(tagName);
-                    TagEntity tagEntity = tagEntityOpt.orElseGet(() ->
-                            saveTagRepository.saveTag(tagMapper.fromMapEntryToTag(Map.entry(tagName, tagColor)))
-                    );
-                    return tagMapper.fromEntityToPOJO(tagEntity);
-                })
-                .collect(Collectors.toSet());
     }
 }
