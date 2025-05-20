@@ -6,8 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 @Table(name = "tags")
@@ -24,6 +23,6 @@ public class TagEntity {
     private String color;
 
     @ManyToMany(mappedBy = "tags")
-    private Set<ExpenseEntity> expenses = new HashSet<>();
+    private List<ExpenseEntity> expenses;
 
 }
