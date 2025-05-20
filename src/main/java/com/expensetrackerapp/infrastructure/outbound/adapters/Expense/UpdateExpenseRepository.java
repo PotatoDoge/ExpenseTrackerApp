@@ -6,6 +6,7 @@ import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.infrastructure.outbound.repositories.ExpenseRepository;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
@@ -20,6 +21,7 @@ public class UpdateExpenseRepository implements UpdateExpenseOutboundPort<Expens
     private final ExpenseRepository expenseRepository;
     private final ExpenseMapper expenseMapper;
 
+    @Transactional
     @Override
     public ExpenseEntity updateExpense(Expense expense, Long expenseId) {
 
