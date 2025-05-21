@@ -13,6 +13,7 @@ import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Set;
 
 @SuperBuilder
@@ -36,7 +37,7 @@ public abstract class BaseExpenseRequest {
     private String location;
     private Card card;
     private Long categoryId;
-    private Set<Tag> tags;
+    private Map<String, String> tags; // <tagName, tagColor>
     private Set<Attachment> attachments;
 
 }

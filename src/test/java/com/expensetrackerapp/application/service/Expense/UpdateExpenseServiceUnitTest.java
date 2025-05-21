@@ -22,6 +22,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.Map;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
@@ -70,7 +71,7 @@ class UpdateExpenseServiceUnitTest {
                 .location("City Center")
                 .card(new Card())
                 .categoryId(null)
-                .tags(Set.of(new Tag()))
+                .tags(Map.of())
                 .attachments(Set.of(new Attachment()))
                 .build();
 

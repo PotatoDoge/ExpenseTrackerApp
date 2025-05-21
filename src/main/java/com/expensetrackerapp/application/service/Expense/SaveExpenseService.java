@@ -4,19 +4,21 @@ import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpense
 import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseUseCase;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.SaveExpenseOutboundPort;
-import com.expensetrackerapp.domain.model.Category;
+import com.expensetrackerapp.application.port.out.Tag.GetTagByNameOutboundPort;
+import com.expensetrackerapp.application.port.out.Tag.SaveTagOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.entities.TagEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
+import com.expensetrackerapp.infrastructure.outbound.mappers.TagMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
 import com.expensetrackerapp.shared.exceptions.MappingException;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
 import com.expensetrackerapp.shared.exceptions.NullRequestException;
 import jakarta.persistence.PersistenceException;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
@@ -24,14 +26,25 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 @Service
-@AllArgsConstructor
 @Log4j2
-public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
+public class SaveExpenseService extends BaseExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
 
     private final SaveExpenseOutboundPort<ExpenseEntity> saveExpensePort;
-    private final GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
     private final ExpenseMapper expenseMapper;
-    private final CategoryMapper categoryMapper;
+
+    public SaveExpenseService(
+            SaveExpenseOutboundPort<ExpenseEntity> saveExpensePort,
+            ExpenseMapper expenseMapper,
+            GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository,
+            GetTagByNameOutboundPort<TagEntity> getTagByNameRepository,
+            SaveTagOutboundPort<TagEntity> saveTagRepository,
+            CategoryMapper categoryMapper,
+            TagMapper tagMapper
+    ) {
+        super(getCategoryByIdRepository, getTagByNameRepository, saveTagRepository, categoryMapper, tagMapper);
+        this.saveExpensePort = saveExpensePort;
+        this.expenseMapper = expenseMapper;
+    }
 
     @Override
     public ExpenseDTO saveExpense(SaveExpenseRequest saveExpenseRequest) {
@@ -45,6 +58,7 @@ public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
         try{
             expense = expenseMapper.fromRequestToPojo(saveExpenseRequest);
             expense.setCategory(validateAndMapCategory(saveExpenseRequest.getCategoryId()));
+            expense.setTags(validateAndMapTags(saveExpenseRequest.getTags()));
             log.info("Saving expense: {}", expense);
             ExpenseEntity expenseEntity = saveExpensePort.saveExpense(expense);
             return expenseMapper.fromEntityToDTO(expenseEntity);
@@ -64,13 +78,5 @@ public class SaveExpenseService implements SaveExpenseUseCase<ExpenseDTO> {
             log.error("Unexpected error occurred while saving expense", e);
             throw new DatabaseInteractionException("Unhandled error while saving expenses.");
         }
-    }
-
-    private Category validateAndMapCategory(Long categoryId) {
-        if (categoryId == null) return null;
-
-        return getCategoryByIdRepository.getCategoryById(categoryId)
-                .map(categoryMapper::fromEntityToPOJO)
-                .orElseThrow(() -> new NotFoundInDatabase("Category not found with id: " + categoryId));
     }
 }

@@ -16,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -63,6 +64,7 @@ class ExpenseMapperTest {
                 .recurrenceType(RecurrenceType.NONE)
                 .vendor("Some Vendor")
                 .location("New York")
+                .tags(new ArrayList<>())
                 .build();
     }
 
@@ -110,6 +112,7 @@ class ExpenseMapperTest {
     void testUpdateEntity() {
         ExpenseEntity existing = ExpenseEntity.builder()
                 .name("Old")
+                .tags(new ArrayList<>())
                 .build();
 
         ExpenseEntity newData = createSampleEntity();
