@@ -1,9 +1,6 @@
 package com.expensetrackerapp.shared;
 
-import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
-import com.expensetrackerapp.shared.exceptions.MappingException;
-import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
-import com.expensetrackerapp.shared.exceptions.NullRequestException;
+import com.expensetrackerapp.shared.exceptions.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +35,12 @@ public class GlobalExceptionHandler {
     public ResponseEntity<CustomResponse> handleNotFoundInDatabase(NotFoundInDatabase ex) {
         log.error("NotFoundInDatabase occurred: ", ex);
         return createResponse(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
+    @ExceptionHandler(InvalidEnum.class)
+    public ResponseEntity<CustomResponse> handleInvalidEnum(InvalidEnum ex) {
+        log.error("InvalidEnum occurred: ", ex);
+        return createResponse(HttpStatus.BAD_REQUEST, ex.getMessage());
     }
 
     private ResponseEntity<CustomResponse> createResponse(HttpStatus status, String message) {
