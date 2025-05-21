@@ -9,11 +9,11 @@
 ### 2.3 As a user, I want to edit the payment method of an existing expense
 - So that I can correct mistakes if the wrong method was selected.
 
-### 2.4 (Future) As a user, I want to manage my list of saved cards and payment methods
+### 2.4 As a user, I want to manage my list of saved cards and payment methods
 - So that I can easily select from my frequently used options (e.g., Visa, Mastercard, Wallet, Bank Transfer).
 
 ---
 
 # 📌 Notes
 - For now, keep payment methods simple (e.g., Cash, Credit Card, Debit Card, Bank Transfer, Wallet).
-- Later versions could link specific card entities for richer data.
+- Later versions could link specific card entities for richer data. (Use 2.4 for this)
