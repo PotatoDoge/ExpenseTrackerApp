@@ -15,7 +15,7 @@
 | 1.3           | View detailed information about a specific expense              | ✅️     |
 | 1.4           | Edit an existing expense                                        | ✅️     |
 | 1.5           | Delete an expense                                               | ✅️     |
-| 2.1           | Select a payment method when creating an expense                | ⚠️     |
+| 2.1           | Select a payment method when creating an expense                | ✅️     |
 | 2.2           | View the payment method used for each expense                   | ⚠️     |
 | 2.3           | Edit the payment method of an existing expense                  | ⚠️     |
 | 2.4           | Manage saved cards and payment methods (Future)                 | ⚠️     |
