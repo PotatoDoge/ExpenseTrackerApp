@@ -33,7 +33,7 @@
 | 7.1           | Assign a category to an expense                                 | ✅️     |
 | 7.2           | View the category of each expense                               | ✅️     |
 | 7.3           | Create, read, edit, and delete categories                       | ✅️     |
-| 7.4           | Assign tags to expenses                                         | ⚠️     |
+| 7.4           | Assign tags to expenses                                         | ✅️     |
 | 7.5           | Upload attachments to expenses                                  | ⚠️     |
 | 7.6           | View tags and attachments in the expense details                | ⚠️     |
 | 8.1           | See reports of spending over time                               | ⚠️     |
