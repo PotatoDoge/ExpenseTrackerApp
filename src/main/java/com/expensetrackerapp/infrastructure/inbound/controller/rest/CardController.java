@@ -1,5 +1,6 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.Card.DeleteCard.DeleteCardUseCase;
 import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsFilter;
 import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsUseCase;
 import com.expensetrackerapp.application.port.in.Card.SaveCard.SaveCardRequest;
@@ -25,6 +26,7 @@ public class CardController {
 
     private final SaveCardUseCase<CardDTO> saveCardUseCase;
     private final GetCardsUseCase<CardDTO, GetCardsFilter> getCardsUseCase;
+    private final DeleteCardUseCase deleteCardUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveCard(@RequestBody SaveCardRequest saveCardRequest) {
@@ -52,9 +54,23 @@ public class CardController {
                 .builder().id(cardId).name(cardName).type(type).lastDigits(lastDigits).bankName(bankName).build();
         log.info("Received request to get all cards with the following filters: {}", getCardsFilter);
         List<CardDTO> cards = getCardsUseCase.getCards(getCardsFilter);
-        return ResponseEntity.ok(CustomResponse.builder()
+        CustomResponse response = CustomResponse.builder()
                 .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
                 .message("Cards fetched successfully")
-                .data(Map.of("cards", cards)).build());
+                .data(Map.of("cards", cards))
+                .build();
+        return ResponseEntity.status(200).body(response);
+    }
+
+    @DeleteMapping("{cardId}")
+    public ResponseEntity<CustomResponse> deleteCard(@PathVariable Long cardId) {
+        log.info("Received request to delete card with ID: {}", cardId);
+        deleteCardUseCase.deleteCard(cardId);
+        log.info("Card deleted successfully with ID: {}", cardId);
+        CustomResponse response = CustomResponse.builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Card deleted successfully")
+                .build();
+        return ResponseEntity.status(204).body(response);
     }
 }
