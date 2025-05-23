@@ -1,19 +1,20 @@
 package com.expensetrackerapp.infrastructure.inbound.controller.rest;
 
+import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsFilter;
+import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsUseCase;
 import com.expensetrackerapp.application.port.in.Card.SaveCard.SaveCardRequest;
 import com.expensetrackerapp.application.port.in.Card.SaveCard.SaveCardUseCase;
+import com.expensetrackerapp.domain.enums.CardType;
 import com.expensetrackerapp.dto.CardDTO;
 import com.expensetrackerapp.shared.CustomResponse;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -23,6 +24,7 @@ import java.util.Map;
 public class CardController {
 
     private final SaveCardUseCase<CardDTO> saveCardUseCase;
+    private final GetCardsUseCase<CardDTO, GetCardsFilter> getCardsUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveCard(@RequestBody SaveCardRequest saveCardRequest) {
@@ -36,5 +38,23 @@ public class CardController {
                 .data(Map.of("card", savedCard)).build();
         log.info("Card saved successfully with ID: {}", savedCard.getId());
         return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping
+    public ResponseEntity<CustomResponse> getCards(
+            @RequestParam(required = false) Long cardId,
+            @RequestParam(required = false) String cardName,
+            @RequestParam(required = false) CardType type,
+            @RequestParam(required = false) String lastDigits,
+            @RequestParam(required = false) String bankName
+    ) {
+        GetCardsFilter getCardsFilter = GetCardsFilter
+                .builder().id(cardId).name(cardName).type(type).lastDigits(lastDigits).bankName(bankName).build();
+        log.info("Received request to get all cards with the following filters: {}", getCardsFilter);
+        List<CardDTO> cards = getCardsUseCase.getCards(getCardsFilter);
+        return ResponseEntity.ok(CustomResponse.builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Cards fetched successfully")
+                .data(Map.of("cards", cards)).build());
     }
 }
