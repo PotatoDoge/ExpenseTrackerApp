@@ -2,11 +2,9 @@ package com.expensetrackerapp.application.service.Card;
 
 import com.expensetrackerapp.application.port.in.Card.UpdateCard.UpdateCardRequest;
 import com.expensetrackerapp.application.port.in.Card.UpdateCard.UpdateCardUseCase;
-import com.expensetrackerapp.application.port.out.Card.GetCardByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Card.UpdateCardOutboundPort;
 import com.expensetrackerapp.domain.model.Card;
 import com.expensetrackerapp.dto.CardDTO;
-import com.expensetrackerapp.infrastructure.outbound.adapters.Card.UpdateCardRepository;
 import com.expensetrackerapp.infrastructure.outbound.entities.CardEntity;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CardMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
@@ -20,14 +18,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
 @Log4j2
 public class UpdateCardService implements UpdateCardUseCase<CardDTO> {
 
-    private final GetCardByIdOutboundPort<CardEntity> getCardByIdPort;
     private final UpdateCardOutboundPort<CardEntity> updateCardRepository;
     private final CardMapper cardMapper;
 
