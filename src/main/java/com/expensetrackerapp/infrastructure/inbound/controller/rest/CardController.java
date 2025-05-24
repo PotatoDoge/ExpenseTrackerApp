@@ -5,6 +5,8 @@ import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsFilter;
 import com.expensetrackerapp.application.port.in.Card.GetCards.GetCardsUseCase;
 import com.expensetrackerapp.application.port.in.Card.SaveCard.SaveCardRequest;
 import com.expensetrackerapp.application.port.in.Card.SaveCard.SaveCardUseCase;
+import com.expensetrackerapp.application.port.in.Card.UpdateCard.UpdateCardRequest;
+import com.expensetrackerapp.application.port.in.Card.UpdateCard.UpdateCardUseCase;
 import com.expensetrackerapp.domain.enums.CardType;
 import com.expensetrackerapp.dto.CardDTO;
 import com.expensetrackerapp.shared.CustomResponse;
@@ -27,6 +29,7 @@ public class CardController {
     private final SaveCardUseCase<CardDTO> saveCardUseCase;
     private final GetCardsUseCase<CardDTO, GetCardsFilter> getCardsUseCase;
     private final DeleteCardUseCase deleteCardUseCase;
+    private final UpdateCardUseCase<CardDTO> updateCardUseCase;
 
     @PostMapping
     public ResponseEntity<CustomResponse> saveCard(@RequestBody SaveCardRequest saveCardRequest) {
@@ -72,5 +75,17 @@ public class CardController {
                 .message("Card deleted successfully")
                 .build();
         return ResponseEntity.status(204).body(response);
+    }
+
+    @PutMapping("{cardId}")
+    public ResponseEntity<CustomResponse> updateCard(@RequestBody UpdateCardRequest request, @PathVariable Long cardId){
+        log.info("Received request to update card with ID: {}", cardId);
+        CardDTO updatedCard = updateCardUseCase.updateCard(request, cardId);
+        CustomResponse response = CustomResponse
+                .builder()
+                .timestamp(DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(OffsetDateTime.now()))
+                .message("Card updated successfully")
+                .data(Map.of("card", updatedCard)).build();
+        return ResponseEntity.status(200).body(response);
     }
 }

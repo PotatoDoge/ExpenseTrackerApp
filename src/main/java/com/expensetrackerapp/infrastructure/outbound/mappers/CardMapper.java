@@ -30,7 +30,10 @@ public class CardMapper implements ExtendedMapper<Card, CardEntity, CardDTO, Bas
 
     @Override
     public void updateEntity(CardEntity existingEntity, CardEntity newEntity) {
-
+        existingEntity.setName(newEntity.getName());
+        existingEntity.setType(newEntity.getType());
+        existingEntity.setLastDigits(newEntity.getLastDigits());
+        existingEntity.setBankName(newEntity.getBankName());
     }
 
     @Override
@@ -69,6 +72,12 @@ public class CardMapper implements ExtendedMapper<Card, CardEntity, CardDTO, Bas
 
     @Override
     public Card fromEntityToPOJO(CardEntity cardEntity) {
-        return null;
+        return Card.builder()
+                .id(cardEntity.getId())
+                .name(cardEntity.getName())
+                .lastDigits(cardEntity.getLastDigits())
+                .bankName(cardEntity.getBankName())
+                .type(cardEntity.getType())
+                .build();
     }
 }
