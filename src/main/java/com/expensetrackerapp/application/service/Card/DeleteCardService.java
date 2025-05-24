@@ -47,7 +47,5 @@ public class DeleteCardService implements DeleteCardUseCase {
             log.error("Unexpected error occurred while deleting card with id: {}", cardId, e);
             throw new DatabaseInteractionException("Unexpected error occurred while deleting card with id: " + cardId);
         }
-        deleteCardRepository.deleteCard(cardId);
-        log.info("Card with id: {} deleted successfully", cardId);
     }
 }
