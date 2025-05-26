@@ -1,0 +1,7 @@
+{
+  "name": "Visa Platinum",
+  "type": "CREDIT",
+  "lastDigits": "5678",
+  "bankName": "UpdatedBank",
+  "expirationDate": "2028-06"
+}

@@ -1,0 +1,7 @@
+{
+  "name": "Visa Gold",
+  "type": "CREDIT",
+  "lastDigits": "1234",
+  "bankName": "MyBank",
+  "expirationDate": "2026-12"
+}
