@@ -2,10 +2,9 @@ package com.expensetrackerapp.infrastructure.outbound.entities;
 
 import com.expensetrackerapp.domain.enums.CardType;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "cards")
@@ -13,6 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
+@ToString(exclude = "expenses")
 public class CardEntity {
 
     @Id
@@ -23,5 +23,8 @@ public class CardEntity {
     private CardType type;
     private String lastDigits;
     private String bankName;
+
+    @OneToMany(mappedBy = "card")
+    private List<ExpenseEntity> expenses;
 
 }
