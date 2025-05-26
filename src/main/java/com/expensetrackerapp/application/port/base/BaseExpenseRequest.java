@@ -35,7 +35,7 @@ public abstract class BaseExpenseRequest {
     private RecurrenceType recurrenceType;
     private String vendor;
     private String location;
-    private Card card;
+    private Long cardId;
     private Long categoryId;
     private Map<String, String> tags; // <tagName, tagColor>
     private Set<Attachment> attachments;
