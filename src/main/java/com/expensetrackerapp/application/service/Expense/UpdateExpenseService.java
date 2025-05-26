@@ -2,15 +2,18 @@ package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseUseCase;
+import com.expensetrackerapp.application.port.out.Card.GetCardByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.GetTagByNameOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.SaveTagOutboundPort;
 import com.expensetrackerapp.domain.model.Expense;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.infrastructure.outbound.entities.CardEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.TagEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CardMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.TagMapper;
@@ -37,11 +40,13 @@ public class UpdateExpenseService extends BaseExpenseService implements UpdateEx
             ExpenseMapper expenseMapper,
             GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository,
             GetTagByNameOutboundPort<TagEntity> getTagByNameRepository,
+            GetCardByIdOutboundPort<CardEntity> getCardByIdRepository,
             SaveTagOutboundPort<TagEntity> saveTagRepository,
             CategoryMapper categoryMapper,
-            TagMapper tagMapper
+            TagMapper tagMapper,
+            CardMapper cardMapper
     ) {
-        super(getCategoryByIdRepository, getTagByNameRepository, saveTagRepository, categoryMapper, tagMapper);
+        super(getCategoryByIdRepository, getTagByNameRepository, getCardByIdRepository, saveTagRepository, categoryMapper, tagMapper, cardMapper);
         this.updateExpenseOutboundPort = updateExpenseOutboundPort;
         this.expenseMapper = expenseMapper;
     }
@@ -58,6 +63,7 @@ public class UpdateExpenseService extends BaseExpenseService implements UpdateEx
             expense = expenseMapper.fromRequestToPojo(updateExpenseRequest);
             expense.setCategory(validateAndMapCategory(updateExpenseRequest.getCategoryId()));
             expense.setTags(validateAndMapTags(updateExpenseRequest.getTags()));
+            expense.setCard(validateAndMapCard(updateExpenseRequest.getCardId()));
             log.info("Updating expense: {}", expense);
             ExpenseEntity expenseEntity = updateExpenseOutboundPort.updateExpense(expense, expenseId);
             return expenseMapper.fromEntityToDTO(expenseEntity);
