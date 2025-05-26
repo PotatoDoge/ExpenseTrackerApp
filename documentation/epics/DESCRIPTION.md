@@ -18,7 +18,7 @@
 | 2.1           | Select a payment method when creating an expense                | ✅️     |
 | 2.2           | View the payment method used for each expense                   | ⚠️     |
 | 2.3           | Edit the payment method of an existing expense                  | ⚠️     |
-| 2.4           | Manage saved cards and payment methods (Future)                 | ⚠️     |
+| 2.4           | Manage saved cards and payment methods                          | ✅️     |
 | 3.1           | Specify if an expense was paid in full or installments          | ⚠️     |
 | 3.2           | Enter the number of installments for an expense                 | ⚠️     |
 | 3.3           | View if an expense was paid in full or has pending installments | ⚠️     |
