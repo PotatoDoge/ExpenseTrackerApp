@@ -1,14 +1,17 @@
 package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.in.Expense.UpdateExpense.UpdateExpenseRequest;
+import com.expensetrackerapp.application.port.out.Card.GetCardByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.UpdateExpenseOutboundPort;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import com.expensetrackerapp.domain.model.*;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.infrastructure.outbound.entities.CardEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CardMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.shared.exceptions.*;
@@ -23,6 +26,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 import static org.mockito.Mockito.*;
@@ -43,6 +47,12 @@ class UpdateExpenseServiceUnitTest {
     @Mock
     private CategoryMapper categoryMapper;
 
+    @Mock
+    private GetCardByIdOutboundPort<CardEntity> getCardByIdRepository;
+
+    @Mock
+    private CardMapper cardMapper;
+
     @InjectMocks
     private UpdateExpenseService updateExpenseService;
 
@@ -50,6 +60,8 @@ class UpdateExpenseServiceUnitTest {
     private Expense expense;
     private ExpenseEntity expenseEntity;
     private ExpenseDTO expenseDTO;
+    private CardEntity cardEntity;
+    private Card card;
 
     private final Long expenseId = 1L;
 
@@ -69,7 +81,7 @@ class UpdateExpenseServiceUnitTest {
                 .recurrenceType(RecurrenceType.WEEKLY)
                 .vendor("Supermarket")
                 .location("City Center")
-                .card(new Card())
+                .cardId(1L)
                 .categoryId(null)
                 .tags(Map.of())
                 .attachments(Set.of(new Attachment()))
@@ -129,11 +141,16 @@ class UpdateExpenseServiceUnitTest {
                 .location("City Center")
                 .category(null)
                 .build();
+
+        cardEntity = CardEntity.builder().id(1L).name("BBVA").build();
+        card = Card.builder().id(1L).name("BBVA").build();
     }
 
     @Test
     void testUpdateExpenseSuccessfully() {
         when(expenseMapper.fromRequestToPojo(updateExpenseRequest)).thenReturn(expense);
+        when(getCardByIdRepository.getCardById(1L)).thenReturn(Optional.ofNullable(cardEntity));
+        when(cardMapper.fromEntityToPOJO(cardEntity)).thenReturn(card);
         when(updateExpenseOutboundPort.updateExpense(expense, expenseId)).thenReturn(expenseEntity);
         when(expenseMapper.fromEntityToDTO(expenseEntity)).thenReturn(expenseDTO);
 
@@ -159,6 +176,8 @@ class UpdateExpenseServiceUnitTest {
     @Test
     void testUpdateExpenseThrowsNotFoundInDatabase() {
         when(expenseMapper.fromRequestToPojo(updateExpenseRequest)).thenReturn(expense);
+        when(getCardByIdRepository.getCardById(1L)).thenReturn(Optional.ofNullable(cardEntity));
+        when(cardMapper.fromEntityToPOJO(cardEntity)).thenReturn(card);
         when(updateExpenseOutboundPort.updateExpense(expense, expenseId))
                 .thenThrow(new NotFoundInDatabase("Expense not found"));
 
@@ -184,6 +203,8 @@ class UpdateExpenseServiceUnitTest {
         when(expenseMapper.fromRequestToPojo(updateExpenseRequest)).thenReturn(expense);
         when(updateExpenseOutboundPort.updateExpense(expense, expenseId))
                 .thenThrow(new NullPointerException("Simulated DB failure"));
+        when(getCardByIdRepository.getCardById(1L)).thenReturn(Optional.ofNullable(cardEntity));
+        when(cardMapper.fromEntityToPOJO(cardEntity)).thenReturn(card);
 
         DatabaseInteractionException exception = assertThrows(DatabaseInteractionException.class, () -> {
             updateExpenseService.updateExpense(updateExpenseRequest, expenseId);
