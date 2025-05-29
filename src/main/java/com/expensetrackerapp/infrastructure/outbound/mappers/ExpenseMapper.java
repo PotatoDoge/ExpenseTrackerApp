@@ -17,6 +17,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
 
     private final CategoryMapper categoryMapper;
     private final TagMapper tagMapper;
+    private final CardMapper cardMapper;
 
     @Override
     public ExpenseEntity fromPojoToEntity(Expense e) {
@@ -42,6 +43,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                             .collect(Collectors.toList())
                             : null)
                     .category(e.getCategory() != null ? categoryMapper.fromPojoToEntity(e.getCategory()) : null)
+                    .card(e.getCard() != null ? cardMapper.fromPojoToEntity(e.getCard()) : null)
                     .build();
         }
         catch (Exception ex) {
@@ -72,6 +74,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                             .collect(Collectors.toList())
                             : null)
                     .category(e.getCategory() != null ? categoryMapper.fromEntityToDTO(e.getCategory()) : null)
+                    .card(e.getCard() != null ? cardMapper.fromEntityToDTO(e.getCard()) : null)
                     .build();
         }
         catch (Exception ex) {
@@ -99,6 +102,7 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
             existing.setCategory(newData.getCategory());
             existing.getTags().clear();
             existing.getTags().addAll(newData.getTags());
+            existing.setCard(newData.getCard());
         }
         catch (Exception ex) {
             log.error("Error occurred while updating (mapping) entity values: {}", ex.getMessage(), ex);
@@ -128,7 +132,6 @@ public class ExpenseMapper implements ExtendedMapper<Expense, ExpenseEntity, Exp
                     .recurrenceType(saveExpenseRequest.getRecurrenceType())
                     .vendor(saveExpenseRequest.getVendor())
                     .location(saveExpenseRequest.getLocation())
-                    .card(saveExpenseRequest.getCard())
                     .attachments(saveExpenseRequest.getAttachments())
                     .build();
         }

@@ -51,5 +51,11 @@ public class ExpenseEntity {
     )
     private List<TagEntity> tags;
 
-    // TODO: Relationships for card, attachments, etc
+    @ManyToOne
+    @JoinColumn(name = "card_id")
+    private CardEntity card;
+
+    // TODO: el endpoint de get all, ya no funciona para los que se le acutaliza el card
+
+    // TODO: Relationships for attachments, etc
 }

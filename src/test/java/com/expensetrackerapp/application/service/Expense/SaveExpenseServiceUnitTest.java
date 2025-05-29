@@ -1,14 +1,17 @@
 package com.expensetrackerapp.application.service.Expense;
 
 import com.expensetrackerapp.application.port.in.Expense.SaveExpense.SaveExpenseRequest;
+import com.expensetrackerapp.application.port.out.Card.GetCardByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Expense.SaveExpenseOutboundPort;
 import com.expensetrackerapp.domain.enums.PaymentMethod;
 import com.expensetrackerapp.domain.enums.RecurrenceType;
 import com.expensetrackerapp.domain.model.*;
 import com.expensetrackerapp.dto.ExpenseDTO;
+import com.expensetrackerapp.infrastructure.outbound.entities.CardEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.ExpenseEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CardMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.ExpenseMapper;
 import com.expensetrackerapp.shared.exceptions.DatabaseInteractionException;
@@ -47,6 +50,12 @@ public class SaveExpenseServiceUnitTest {
     @Mock
     private CategoryMapper categoryMapper;
 
+    @Mock
+    private GetCardByIdOutboundPort<CardEntity> getCardByIdRepository;
+
+    @Mock
+    private CardMapper cardMapper;
+
     @InjectMocks
     private SaveExpenseService saveExpenseService;
 
@@ -55,7 +64,9 @@ public class SaveExpenseServiceUnitTest {
     private ExpenseEntity expenseEntity;
     private ExpenseDTO expenseDTO;
     private CategoryEntity categoryEntity;
+    private CardEntity cardEntity;
     private Category category;
+    private Card card;
 
     @BeforeEach
     public void setUp() {
@@ -73,7 +84,7 @@ public class SaveExpenseServiceUnitTest {
                 .recurrenceType(RecurrenceType.MONTHLY)
                 .vendor("Vendor A")
                 .location("New York")
-                .card(new Card())
+                .cardId(1L)
                 .categoryId(1L)
                 .tags(Map.of())
                 .attachments(Set.of(new Attachment()))
@@ -100,7 +111,9 @@ public class SaveExpenseServiceUnitTest {
                 .build();
 
         categoryEntity = CategoryEntity.builder().id(1L).name("Food").build();
+        cardEntity = CardEntity.builder().id(1L).name("BBVA").build();
         category = Category.builder().id(1L).name("Food").build();
+        card = Card.builder().id(1L).name("BBVA").build();
         expense.setCategory(category);
 
         expenseEntity = ExpenseEntity.builder()
@@ -140,6 +153,8 @@ public class SaveExpenseServiceUnitTest {
     void testSaveExpense() {
         when(expenseMapper.fromRequestToPojo(saveExpenseRequest)).thenReturn(expense);
         when(getCategoryByIdOutboundPort.getCategoryById(1L)).thenReturn(Optional.ofNullable(categoryEntity));
+        when(getCardByIdRepository.getCardById(1L)).thenReturn(Optional.ofNullable(cardEntity));
+        when(cardMapper.fromEntityToPOJO(cardEntity)).thenReturn(card);
         when(categoryMapper.fromEntityToPOJO(categoryEntity)).thenReturn(category);
         when(saveExpensePort.saveExpense(expense)).thenReturn(expenseEntity);
         when(expenseMapper.fromEntityToDTO(expenseEntity)).thenReturn(expenseDTO);

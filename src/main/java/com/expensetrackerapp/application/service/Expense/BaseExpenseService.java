@@ -1,12 +1,16 @@
 package com.expensetrackerapp.application.service.Expense;
 
+import com.expensetrackerapp.application.port.out.Card.GetCardByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Category.GetCategoryByIdOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.GetTagByNameOutboundPort;
 import com.expensetrackerapp.application.port.out.Tag.SaveTagOutboundPort;
+import com.expensetrackerapp.domain.model.Card;
 import com.expensetrackerapp.domain.model.Category;
 import com.expensetrackerapp.domain.model.Tag;
+import com.expensetrackerapp.infrastructure.outbound.entities.CardEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.CategoryEntity;
 import com.expensetrackerapp.infrastructure.outbound.entities.TagEntity;
+import com.expensetrackerapp.infrastructure.outbound.mappers.CardMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.CategoryMapper;
 import com.expensetrackerapp.infrastructure.outbound.mappers.TagMapper;
 import com.expensetrackerapp.shared.exceptions.NotFoundInDatabase;
@@ -22,20 +26,26 @@ public abstract class BaseExpenseService {
 
     protected final GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository;
     protected final GetTagByNameOutboundPort<TagEntity> getTagByNameRepository;
+    protected final GetCardByIdOutboundPort<CardEntity> getCardByIdRepository;
     protected final SaveTagOutboundPort<TagEntity> saveTagRepository;
     protected final CategoryMapper categoryMapper;
     protected final TagMapper tagMapper;
+    protected final CardMapper cardMapper;
 
     public BaseExpenseService(GetCategoryByIdOutboundPort<CategoryEntity> getCategoryByIdRepository,
                               GetTagByNameOutboundPort<TagEntity> getTagByNameRepository,
+                              GetCardByIdOutboundPort<CardEntity> getCardByIdRepository,
                               SaveTagOutboundPort<TagEntity> saveTagRepository,
                               CategoryMapper categoryMapper,
-                              TagMapper tagMapper) {
+                              TagMapper tagMapper,
+                              CardMapper cardMapper) {
         this.getCategoryByIdRepository = getCategoryByIdRepository;
         this.getTagByNameRepository = getTagByNameRepository;
+        this.getCardByIdRepository = getCardByIdRepository;
         this.saveTagRepository = saveTagRepository;
         this.categoryMapper = categoryMapper;
         this.tagMapper = tagMapper;
+        this.cardMapper = cardMapper;
     }
 
     protected Category validateAndMapCategory(Long categoryId) {
@@ -65,6 +75,13 @@ public abstract class BaseExpenseService {
                     return tagMapper.fromEntityToPOJO(tagEntity);
                 })
                 .collect(Collectors.toSet());
+    }
+
+    protected Card validateAndMapCard(Long cardId) {
+        if (cardId == null) return null;
+        return getCardByIdRepository.getCardById(cardId)
+                .map(cardMapper::fromEntityToPOJO)
+                .orElseThrow(() -> new NotFoundInDatabase("Card not found with id: " + cardId));
     }
 }
 

@@ -24,6 +24,7 @@ public class ExpenseDTO {
     private String vendor;
     private String location;
     private CategoryDTO category;
+    private CardDTO card;
     private List<TagDTO> tags;
 
     // TODO: Add missing Expense fields; these are msising due to missing POJOs dtos
