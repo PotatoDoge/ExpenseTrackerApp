@@ -15,6 +15,22 @@
 ---
 
 # 📌 Notes
-- If `isPaidInFull = true`, `installments` should be **null** or **0**.
-- If `isPaidInFull = false`, `installments` must be **> 1**.
-- Later versions could calculate monthly installment amounts automatically (amount ÷ installments).
+- There are **two types of recurring expenses**:
+    1. **Installment-based (fixed-term)**:
+        - `isRecurring = false`
+        - `installments > 1`
+        - A new expense is generated monthly until `installments` are completed.
+        - `parentExpenseId` can help track which expense each installment belongs to.
+        - `nextDueDate` can be used to determine when to generate the next installment.
+
+    2. **Open-ended recurring (indefinite)**:
+        - `isRecurring = true`
+        - `installments = null` or `1`
+        - `recurrenceType` (e.g., MONTHLY) determines the frequency.
+        - A new expense is generated indefinitely based on `expenseDate`'s day of month.
+        - The user must manually stop or cancel it.
+
+- A daily scheduled job should:
+    - Check if today matches the `expenseDate`'s day and recurrence type.
+    - Generate a new expense entry if it's time.
+    - For installment expenses, track how many have been created and stop when done.
