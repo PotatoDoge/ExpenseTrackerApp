@@ -55,7 +55,5 @@ public class ExpenseEntity {
     @JoinColumn(name = "card_id")
     private CardEntity card;
 
-    // TODO: el endpoint de get all, ya no funciona para los que se le acutaliza el card
-
     // TODO: Relationships for attachments, etc
 }
